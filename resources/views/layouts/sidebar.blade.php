@@ -118,6 +118,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             @can('view-any', App\Models\Student::class)
                                 <li class="nav-item">
                                     <a href="{{ route('students.index') }}" class="nav-link {{ $student_routes ? 'active' : '' }}">
