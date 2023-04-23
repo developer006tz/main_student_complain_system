@@ -44,7 +44,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-borderless table-hover"  id="myTable">
+                <table class="table table-borderless table-hover"  id="">
                     <thead>
                         <tr>
                             <th class="text-left">
@@ -124,7 +124,7 @@
                             <td>{{ $complaint->description ?? '-' }}</td>
                             <td>{{ $complaint->solution ?? '-' }}</td>
                             <td>{{ $complaint->date ?? '-' }}</td>
-                            <td>{{ $complaint->status ?? '-' }}</td>
+                            <td>{{ $complaint->status == '0' ? 'pending': 'failed'}}</td>
                             <td class="text-center" style="width: 134px;">
                                 <div
                                     role="group"

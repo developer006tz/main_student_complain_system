@@ -46,7 +46,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-borderless table-hover" id="myTable_simple">
+                <table class="table table-borderless table-hover" id="">
                     <thead>
                         <tr>
                             <th class="text-left">

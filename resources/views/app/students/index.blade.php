@@ -44,7 +44,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-borderless table-hover">
+                <table class="table table-borderless table-hover"  id="">
                     <thead>
                         <tr>
                             <th class="text-left">

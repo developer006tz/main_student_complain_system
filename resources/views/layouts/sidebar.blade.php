@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ url('/') }}" class="brand-link">
+    <a href="{{ url('home') }}" class="brand-link">
         <img src="{{ asset('assets/images/logo.png') }}" alt="Vemto Logo" class="brand-image bg-white img-circle">
         <span class="brand-text font-weight-light">studentcomplaints</span>
     </a>
@@ -27,14 +27,13 @@
     $user_routes = resourceRoutes('users');
     $role_routes = resourceRoutes('roles');
     $permission_routes = resourceRoutes('permissions');
-    $complaint_type_routes = resourceRoutes('complaint_types');
+    $complaint_type_routes = resourceRoutes('complain-types');
     $department_head_routes = resourceRoutes('department-heads');
     $message_routes = resourceRoutes('messages');
     $semester_routes = resourceRoutes('semesters');
     $programe_routes = resourceRoutes('programs');
     $course_routes = resourceRoutes('courses');
-    $complaint_type_routes = resourceRoutes('complain_types');
-    $nta_level_routes = resourceRoutes('nta_levels');
+    $nta_level_routes = resourceRoutes('nta-levels');
     $academic_year_routes = resourceRoutes('academic-years');
     $enrollment_routes = resourceRoutes('enrollments');
     $countrie_routes = resourceRoutes('countries');
