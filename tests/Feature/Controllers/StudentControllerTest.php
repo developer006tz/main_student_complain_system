@@ -22,7 +22,7 @@ class StudentControllerTest extends TestCase
         parent::setUp();
 
         $this->actingAs(
-            User::factory()->create(['email' => 'admin@admin.com'])
+            User::factory()->create(['email' => 'developer@ludovickonyo.com'])
         );
 
         $this->seed(\Database\Seeders\PermissionsSeeder::class);
