@@ -102,7 +102,7 @@
                             <td>{{ $student->maritial_status ?? '-' }}</td>
                             <td>
                                 <x-partials.thumbnail
-                                    src="{{ $student->photo ? \Storage::url($student->photo) : '' }}"
+                                    src="{{ $student->photo ? asset('uploads/student/'.$student->photo) : '' }}"
                                 />
                             </td>
                             <td>{{ $student->status ?? '-' }}</td>

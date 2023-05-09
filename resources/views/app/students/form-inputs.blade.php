@@ -80,7 +80,7 @@
 
     <x-inputs.group class="col-sm-12">
         <div
-            x-data="imageViewer('{{ $editing && $student->photo ? \Storage::url($student->photo) : '' }}')"
+            x-data="imageViewer('{{ $editing && $student->photo ? asset('uploads/student/'.$student->photo) : '' }}')"
         >
             <x-inputs.partials.label
                 name="photo"

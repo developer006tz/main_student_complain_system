@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StudentStoreRequest;
 use App\Http\Requests\StudentUpdateRequest;
+use Illuminate\Support\Facades\File;
 
 class StudentController extends Controller
 {
@@ -59,14 +60,33 @@ class StudentController extends Controller
         $this->authorize('create', Student::class);
 
         $validated = $request->validated();
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('public/uploads');
-        }
+//        if ($request->hasFile('photo')) {
+//            $validated['photo'] = $request->file('photo')->store('public');
+//        }
 
-        $student = Student::create($validated);
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            #validate photo
+            $request->validate([
+                'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = time().rand(4,999) . '.' . $extension;
+
+            $file->move('uploads/student/', $filename);
+        } else {
+            $filename = 'default.png';
+        }
+        $photo = ['photo' => $filename];
+
+
+        $student = Student::create(array_merge($validated,$photo));
+
 
         return redirect()
-            ->route('students.edit', $student)
+            ->route('students.show', $student)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -108,18 +128,36 @@ class StudentController extends Controller
         $this->authorize('update', $student);
 
         $validated = $request->validated();
-        if ($request->hasFile('photo')) {
+        /*if ($request->hasFile('photo')) {
             if ($student->photo) {
                 Storage::delete($student->photo);
             }
 
             $validated['photo'] = $request->file('photo')->store('public');
-        }
+        }*/
 
-        $student->update($validated);
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+
+            $previous_image =  asset('uploads/student/'.$student->photo);
+            if (File::exists($previous_image)) {
+                unlink($previous_image);
+            }
+
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = time().rand(4,999) . '.' . $extension;
+
+            $file->move('uploads/student/', $filename);
+        } else {
+            $filename = 'default.png';
+        }
+        $photo = ['photo' => $filename];
+
+        $student->update(array_merge($validated,$photo));
 
         return redirect()
-            ->route('students.edit', $student)
+            ->route('students.show', $student)
             ->withSuccess(__('crud.common.saved'));
     }
 

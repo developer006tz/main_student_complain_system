@@ -49,7 +49,7 @@
                 <div class="mb-4">
                     <h5>@lang('crud.students.inputs.photo')</h5>
                     <x-partials.thumbnail
-                        src="{{ $student->photo ? \Storage::url($student->photo) : '' }}"
+                        src="{{ $student->photo ? asset('uploads/student/'.$student->photo) : '' }}"
                         size="150"
                     />
                 </div>

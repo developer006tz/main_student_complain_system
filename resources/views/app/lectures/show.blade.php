@@ -25,7 +25,7 @@
                 <div class="mb-4">
                     <h5>@lang('crud.lectures.inputs.image')</h5>
                     <x-partials.thumbnail
-                        src="{{ $lecture->image ? \Storage::url($lecture->image) : '' }}"
+                        src="{{ $lecture->image ? url(\Storage::url($lecture->image)) : '' }}"
                         size="150"
                     />
                 </div>
