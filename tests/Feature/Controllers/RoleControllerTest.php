@@ -17,8 +17,8 @@ class RoleControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->actingAs(User::factory()->create(['email' => 'admin@admin.com']));
-        
+        $this->actingAs(User::factory()->create(['email' => 'developer@ludovickonyo.com']));
+
         $this->seed(\Database\Seeders\PermissionsSeeder::class);
 
         $this->withoutExceptionHandling();
@@ -126,7 +126,7 @@ class RoleControllerTest extends TestCase
         $response = $this->delete(route('roles.destroy', $role));
 
         $response->assertRedirect(route('roles.index'));
-        
+
         $this->assertModelMissing($role);
     }
 }

@@ -17,8 +17,8 @@ class PermissionControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->actingAs(User::factory()->create(['email' => 'admin@admin.com']));
-        
+        $this->actingAs(User::factory()->create(['email' => 'developer@ludovickonyo.com']));
+
         $this->seed(\Database\Seeders\PermissionsSeeder::class);
 
         $this->withoutExceptionHandling();
@@ -126,7 +126,7 @@ class PermissionControllerTest extends TestCase
         $response = $this->delete(route('permissions.destroy', $permission));
 
         $response->assertRedirect(route('permissions.index'));
-        
+
         $this->assertModelMissing($permission);
     }
 }

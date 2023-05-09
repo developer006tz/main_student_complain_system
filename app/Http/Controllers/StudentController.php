@@ -60,7 +60,7 @@ class StudentController extends Controller
 
         $validated = $request->validated();
         if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('public');
+            $validated['photo'] = $request->file('photo')->store('public/uploads');
         }
 
         $student = Student::create($validated);
