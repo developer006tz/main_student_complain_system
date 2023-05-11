@@ -23,7 +23,7 @@
             </div>
 
             <div class="mt-4">
-                <a href="{{ route('nta-levels.index') }}" class="btn btn-light">
+                <a href="{{ route('nta-levels.index') }}" class="btn btn-outline-primary">
                     <i class="icon ion-md-return-left"></i>
                     @lang('crud.common.back')
                 </a>
@@ -31,7 +31,7 @@
                 @can('create', App\Models\NtaLevel::class)
                 <a
                     href="{{ route('nta-levels.create') }}"
-                    class="btn btn-light"
+                    class="btn btn-outline-primary"
                 >
                     <i class="icon ion-md-add"></i> @lang('crud.common.create')
                 </a>

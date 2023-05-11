@@ -21,7 +21,7 @@
                 <div class="mt-4">
                     <a
                         href="{{ route('academic-years.index') }}"
-                        class="btn btn-light"
+                        class="btn btn-outline-primary"
                     >
                         <i class="icon ion-md-return-left text-primary"></i>
                         @lang('crud.common.back')
@@ -29,7 +29,7 @@
 
                     <a
                         href="{{ route('academic-years.create') }}"
-                        class="btn btn-light"
+                        class="btn btn-outline-primary"
                     >
                         <i class="icon ion-md-add text-primary"></i>
                         @lang('crud.common.create')

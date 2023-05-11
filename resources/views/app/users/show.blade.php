@@ -43,13 +43,13 @@
             </div>
 
             <div class="mt-4">
-                <a href="{{ route('users.index') }}" class="btn btn-light">
+                <a href="{{ route('users.index') }}" class="btn btn-outline-primary">
                     <i class="icon ion-md-return-left"></i>
                     @lang('crud.common.back')
                 </a>
 
                 @can('create', App\Models\User::class)
-                <a href="{{ route('users.create') }}" class="btn btn-light">
+                <a href="{{ route('users.create') }}" class="btn btn-outline-primary">
                     <i class="icon ion-md-add"></i> @lang('crud.common.create')
                 </a>
                 @endcan

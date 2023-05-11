@@ -19,7 +19,7 @@
                 @include('app.roles.form-inputs')
 
                 <div class="mt-4">
-                    <a href="{{ route('roles.index') }}" class="btn btn-light">
+                    <a href="{{ route('roles.index') }}" class="btn btn-outline-primary">
                         <i class="icon ion-md-return-left text-primary"></i>
                         @lang('crud.common.back')
                     </a>

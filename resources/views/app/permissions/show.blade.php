@@ -21,7 +21,7 @@
             <div class="mt-4">
                 <a
                     href="{{ route('permissions.index') }}"
-                    class="btn btn-light"
+                    class="btn btn-outline-primary"
                 >
                     <i class="icon ion-md-return-left"></i>
                     @lang('crud.common.back')
@@ -30,7 +30,7 @@
                 @can('create', App\Models\Permission::class)
                 <a
                     href="{{ route('permissions.create') }}"
-                    class="btn btn-light"
+                    class="btn btn-outline-primary"
                 >
                     <i class="icon ion-md-add"></i> @lang('crud.common.create')
                 </a>

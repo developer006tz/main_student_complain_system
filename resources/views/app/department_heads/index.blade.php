@@ -60,7 +60,7 @@
                                     >
                                         <button
                                             type="button"
-                                            class="btn btn-light"
+                                            class="btn btn-outline-primary btn-sm"
                                         >
                                             <i class="icon ion-md-create"></i>
                                         </button>
@@ -71,7 +71,7 @@
                                     >
                                         <button
                                             type="button"
-                                            class="btn btn-light"
+                                            class="btn btn-outline-success btn-sm"
                                         >
                                             <i class="icon ion-md-eye"></i>
                                         </button>

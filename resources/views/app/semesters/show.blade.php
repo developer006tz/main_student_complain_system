@@ -27,13 +27,13 @@
             </div>
 
             <div class="mt-4">
-                <a href="{{ route('semesters.index') }}" class="btn btn-light">
+                <a href="{{ route('semesters.index') }}" class="btn btn-outline-primary">
                     <i class="icon ion-md-return-left"></i>
                     @lang('crud.common.back')
                 </a>
 
                 @can('create', App\Models\Semester::class)
-                <a href="{{ route('semesters.create') }}" class="btn btn-light">
+                <a href="{{ route('semesters.create') }}" class="btn btn-outline-primary">
                     <i class="icon ion-md-add"></i> @lang('crud.common.create')
                 </a>
                 @endcan

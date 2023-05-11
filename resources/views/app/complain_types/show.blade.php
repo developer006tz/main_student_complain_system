@@ -25,7 +25,7 @@
             <div class="mt-4">
                 <a
                     href="{{ route('complain-types.index') }}"
-                    class="btn btn-light"
+                    class="btn btn-outline-primary"
                 >
                     <i class="icon ion-md-return-left"></i>
                     @lang('crud.common.back')
@@ -34,7 +34,7 @@
                 @can('create', App\Models\ComplainType::class)
                 <a
                     href="{{ route('complain-types.create') }}"
-                    class="btn btn-light"
+                    class="btn btn-outline-primary"
                 >
                     <i class="icon ion-md-add"></i> @lang('crud.common.create')
                 </a>
