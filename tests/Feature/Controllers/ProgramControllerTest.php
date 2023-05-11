@@ -35,7 +35,7 @@ class ProgramControllerTest extends TestCase
     public function it_displays_index_view_with_programs(): void
     {
         $programs = Program::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('programs.index'));

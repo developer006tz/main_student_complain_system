@@ -37,7 +37,7 @@ class EnrollmentControllerTest extends TestCase
     public function it_displays_index_view_with_enrollments(): void
     {
         $enrollments = Enrollment::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('enrollments.index'));

@@ -13,7 +13,7 @@ class ComplainTypeSeeder extends Seeder
     public function run(): void
     {
         ComplainType::factory()
-            ->count(5)
+            ->count(1)
             ->create();
     }
 }

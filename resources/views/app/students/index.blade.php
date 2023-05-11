@@ -5,24 +5,7 @@
     <div class="searchbar mt-0 mb-4">
         <div class="row">
             <div class="col-md-6">
-                <form>
-                    <div class="input-group">
-                        <input
-                            id="indexSearch"
-                            type="text"
-                            name="search"
-                            placeholder="{{ __('crud.common.search') }}"
-                            value="{{ $search ?? '' }}"
-                            class="form-control"
-                            autocomplete="off"
-                        />
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="icon ion-md-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                <h2>{{str_replace(['.index','.','-'],' ', Str::ucfirst(request()->route()->getName()))}} </h2>
             </div>
             <div class="col-md-6 text-right">
                 @can('create', App\Models\Student::class)
@@ -39,12 +22,8 @@
 
     <div class="card">
         <div class="card-body">
-            <div style="display: flex; justify-content: space-between;">
-                <h4 class="card-title">@lang('crud.students.index_title')</h4>
-            </div>
-
-            <div class="table-responsive">
-                <table class="table table-borderless table-hover"  id="">
+            <div class="dataTables_wrapper dt-bootstrap4" id="button-wrapper">
+                <table class="table table-bordered table-striped dataTable dtr-inline" role="grid"  id="myTable">
                     <thead>
                         <tr>
                             <th class="text-left">
@@ -143,7 +122,7 @@
                                         @csrf @method('DELETE')
                                         <button
                                             type="submit"
-                                            class="btn btn-light text-danger"
+                                            class="btn btn-block btn-outline-danger btn-sm"
                                         >
                                             <i class="icon ion-md-trash"></i>
                                         </button>

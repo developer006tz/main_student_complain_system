@@ -32,7 +32,7 @@ class DepartmentControllerTest extends TestCase
     public function it_displays_index_view_with_departments(): void
     {
         $departments = Department::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('departments.index'));

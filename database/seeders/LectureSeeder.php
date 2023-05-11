@@ -13,7 +13,7 @@ class LectureSeeder extends Seeder
     public function run(): void
     {
         Lecture::factory()
-            ->count(5)
+            ->count(1)
             ->create();
     }
 }

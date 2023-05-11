@@ -32,7 +32,7 @@ class MessageControllerTest extends TestCase
     public function it_displays_index_view_with_messages(): void
     {
         $messages = Message::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('messages.index'));

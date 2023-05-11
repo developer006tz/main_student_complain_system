@@ -32,7 +32,7 @@ class NtaLevelControllerTest extends TestCase
     public function it_displays_index_view_with_nta_levels(): void
     {
         $ntaLevels = NtaLevel::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('nta-levels.index'));

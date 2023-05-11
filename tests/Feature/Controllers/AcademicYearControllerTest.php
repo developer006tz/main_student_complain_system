@@ -32,7 +32,7 @@ class AcademicYearControllerTest extends TestCase
     public function it_displays_index_view_with_academic_years(): void
     {
         $academicYears = AcademicYear::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('academic-years.index'));

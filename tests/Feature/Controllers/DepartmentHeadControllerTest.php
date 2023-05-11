@@ -34,7 +34,7 @@ class DepartmentHeadControllerTest extends TestCase
     public function it_displays_index_view_with_department_heads(): void
     {
         $departmentHeads = DepartmentHead::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('department-heads.index'));

@@ -13,7 +13,7 @@ class NtaLevelSeeder extends Seeder
     public function run(): void
     {
         NtaLevel::factory()
-            ->count(5)
+            ->count(1)
             ->create();
     }
 }

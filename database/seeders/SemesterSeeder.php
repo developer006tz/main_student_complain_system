@@ -13,7 +13,7 @@ class SemesterSeeder extends Seeder
     public function run(): void
     {
         Semester::factory()
-            ->count(5)
+            ->count(1)
             ->create();
     }
 }

@@ -13,7 +13,7 @@ class DepartmentHeadSeeder extends Seeder
     public function run(): void
     {
         DepartmentHead::factory()
-            ->count(5)
+            ->count(1)
             ->create();
     }
 }

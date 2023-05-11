@@ -37,7 +37,7 @@ class CourseControllerTest extends TestCase
     public function it_displays_index_view_with_courses(): void
     {
         $courses = Course::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('courses.index'));

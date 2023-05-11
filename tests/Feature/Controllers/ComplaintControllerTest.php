@@ -41,7 +41,7 @@ class ComplaintControllerTest extends TestCase
     public function it_displays_index_view_with_complaints(): void
     {
         $complaints = Complaint::factory()
-            ->count(5)
+            ->count(2)
             ->create();
 
         $response = $this->get(route('complaints.index'));
