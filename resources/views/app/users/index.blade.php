@@ -53,9 +53,9 @@
                             <th class="text-left">
                                 @lang('crud.users.inputs.phone')
                             </th>
-                            <th class="text-left">
+                            {{-- <th class="text-left">
                                 @lang('crud.users.inputs.designation')
-                            </th>
+                            </th> --}}
                             <th class="text-center">
                                 @lang('crud.common.actions')
                             </th>
@@ -67,7 +67,7 @@
                             <td>{{ $user->name ?? '-' }}</td>
                             <td>{{ $user->email ?? '-' }}</td>
                             <td>{{ $user->phone ?? '-' }}</td>
-                            <td>{{ $user->designation ?? '-' }}</td>
+                            {{-- <td>{{ $user->designation ?? '-' }}</td> --}}
                             <td class="text-center" style="width: 134px;">
                                 <div
                                     role="group"

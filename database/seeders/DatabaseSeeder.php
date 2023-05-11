@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
                 'name'=>'Ludovick Konyo',
                 'email' => 'developer@ludovickonyo.com',
                 'phone'=>'+255746828843',
-                'designation'=>'lecture',
+                // 'designation'=>'lecture',
                 'password' => \Hash::make('admin'),
             ]);
         $this->call(PermissionsSeeder::class);

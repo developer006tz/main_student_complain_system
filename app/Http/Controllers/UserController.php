@@ -72,14 +72,30 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, User $user): View
+    public function edits(Request $request, User $user): View
     {
         $this->authorize('update', $user);
 
         $roles = Role::get();
 
+        return view('app.users.edit', compact('user', 'roles'));//
+    }
+
+    public function edit(Request $request, User $user): View
+    {
+        $this->authorize('update', $user);
+
+        $excludedRoles = ['super-admin', 'department-master', 'gender-desk','user'];
+
+        if (auth()->user()->hasRole('super-admin')) {
+            $roles = Role::get();
+        } else {
+            $roles = Role::whereNotIn('name', $excludedRoles)->get();
+        }
+
         return view('app.users.edit', compact('user', 'roles'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -101,10 +117,17 @@ class UserController extends Controller
         $user->update($validated);
 
         $user->syncRoles($request->roles);
-
-        return redirect()
+        if (auth()->user()->hasRole('super-admin')){
+          return redirect()
             ->route('users.edit', $user)
+            ->withSuccess(__('crud.common.saved'));  
+        } else{
+            return redirect()
+            ->route('home')
             ->withSuccess(__('crud.common.saved'));
+            
+        }
+        
     }
 
     /**

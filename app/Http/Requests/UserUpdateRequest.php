@@ -33,7 +33,7 @@ class UserUpdateRequest extends FormRequest
                 'max:255',
                 'string',
             ],
-            'designation' => ['required', 'in:student,lecture'],
+            // 'designation' => ['required', 'in:student,lecture'],
             'password' => ['nullable'],
             'roles' => 'array',
         ];

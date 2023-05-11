@@ -24,7 +24,7 @@ class UserStoreRequest extends FormRequest
             'name' => ['required', 'max:255', 'string'],
             'email' => ['required', 'unique:users,email', 'email'],
             'phone' => ['required', 'unique:users,phone', 'max:255', 'string'],
-            'designation' => ['required', 'in:student,lecture'],
+            // 'designation' => ['required', 'in:student,lecture'],
             'password' => ['required'],
             'roles' => 'array',
         ];

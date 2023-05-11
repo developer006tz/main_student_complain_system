@@ -19,7 +19,7 @@ class User extends Authenticatable implements FilamentUser
     use Searchable;
     use FilamentTrait;
 
-    protected $fillable = ['name', 'email', 'phone', 'designation', 'password'];
+    protected $fillable = ['name', 'email', 'phone', 'password'];
 
     protected $searchableFields = ['*'];
 

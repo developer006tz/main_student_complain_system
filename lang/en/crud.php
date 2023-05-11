@@ -236,7 +236,7 @@ return [
             'name' => 'Name',
             'email' => 'Email',
             'phone' => 'Phone',
-            'designation' => 'Designation',
+            // 'designation' => 'Designation',
             'password' => 'Password',
         ],
     ],
