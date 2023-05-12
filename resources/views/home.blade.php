@@ -174,7 +174,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-secondary">
                             <div class="inner">
-                                <h3>3<sup style="font-size: 20px"></sup></h3>
+                                <h3>{{$complaints->count()}}<sup style="font-size: 20px"></sup></h3>
 
                                 <p>Total complaints</p>
                             </div>
@@ -187,7 +187,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>0</h3>
+                                <h3>{{$complaints->where('status','1')->count()}}</h3>
 
                                 <p>Resolved</p>
                             </div>
@@ -200,8 +200,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>3</h3>
-
+                                <h3>{{$complaints->where('status','2')->count()}}</h3>
                                 <p>Failed</p>
                             </div>
                             <div class="icon">
@@ -216,12 +215,13 @@
                         <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Previous complaints</h3>
+                <div class="row d-flex justify-content-end my-2">
+                    <a href="{{url("complaints/create")}}" class="btn btn-primary">create new complaint</a>
+                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div class="row d-flex justify-content-end">
-                    <a href="{{url("complaints/create")}}" class="btn btn-primary">create new complaint</a>
-                </div>
+                
                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
@@ -238,7 +238,9 @@
                     <td>{{ $complaint->description ?? '-' }}</td>
                     <td>{{ $complaint->solution ?? '-' }}</td>
                     <td>{{ $complaint->date ?? '-' }}</td>
-                    <td>{{ $complaint->status == '0' ? 'pending': ('1' ? 'resolved' : 'failed')}}</td>
+                    <td>
+    {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
+</td>
                   </tr>
                    @empty
                         <tr>

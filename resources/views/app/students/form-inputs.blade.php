@@ -4,7 +4,9 @@
     <x-inputs.group class="col-sm-12">
         <x-inputs.select name="user_id" label="User" class="select2" required>
             @php $selected = old('user_id', ($editing ? $student->user_id : '')) @endphp
+            @if(Auth::user()->hasRole('admin'))
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the User</option>
+            @endif
             @foreach($users as $value => $label)
             <option value="{{ $value }}" {{ $selected == $value ? 'selected' : '' }} >{{ $label }}</option>
             @endforeach
@@ -12,7 +14,7 @@
     </x-inputs.group>
 
     <x-inputs.group class="col-sm-12">
-        <x-inputs.select name="department_id" label="Department" required>
+        <x-inputs.select name="department_id" @class(['select2']) label="Department" required>
             @php $selected = old('department_id', ($editing ? $student->department_id : '')) @endphp
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the Department</option>
             @foreach($departments as $value => $label)
@@ -22,7 +24,7 @@
     </x-inputs.group>
 
     <x-inputs.group class="col-sm-12">
-        <x-inputs.select name="program_id" label="Program" required>
+        <x-inputs.select name="program_id" class="select2" label="Program" required>
             @php $selected = old('program_id', ($editing ? $student->program_id : '')) @endphp
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the Program</option>
             @foreach($programs as $value => $label)
@@ -32,7 +34,7 @@
     </x-inputs.group>
 
     <x-inputs.group class="col-sm-12">
-        <x-inputs.select name="country_id" label="Country" required>
+        <x-inputs.select name="country_id" @class(['select2']) label="Country" required>
             @php $selected = old('country_id', ($editing ? $student->country_id : '')) @endphp
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the Country</option>
             @foreach($countries as $value => $label)

@@ -14,7 +14,9 @@
     <x-inputs.group class="col-sm-12">
         <x-inputs.select name="student_id" class="select2" label="Student" required>
             @php $selected = old('student_id', ($editing ? $complaint->student_id : '')) @endphp
+            @if(Auth::user()->hasRole('admin'))
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the Student</option>
+            @endif
             @foreach($students as $value => $label)
             <option value="{{ $value }}" {{ $selected == $value ? 'selected' : '' }} >{{ $label }}</option>
             @endforeach
@@ -39,7 +41,7 @@
             <option value="{{ $value }}" {{ $selected == $value ? 'selected' : '' }} >{{ $label }}</option>
             @endforeach
         </x-inputs.select>
-    </x-inputs.group>
+    </x-inputs.group> 
 
     <x-inputs.group class="col-sm-12">
         <x-inputs.select name="course_id" class="select2" label="Course">

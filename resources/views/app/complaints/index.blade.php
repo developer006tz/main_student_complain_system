@@ -89,7 +89,7 @@
                                 {{ optional($complaint->course)->name ?? '-' }}
                             </td>
                             <td>
-                                {{ optional($complaint->lecture)->image ?? '-'
+                                {{ optional($complaint->lecture)->user->name ?? '-'
                                 }}
                             </td>
                             <td>
@@ -103,7 +103,10 @@
                             <td>{{ $complaint->description ?? '-' }}</td>
                             <td>{{ $complaint->solution ?? '-' }}</td>
                             <td>{{ $complaint->date ?? '-' }}</td>
-                            <td>{{ $complaint->status == '0' ? 'pending': 'failed'}}</td>
+                            <td>
+    {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
+</td>
+
                             <td class="text-center" style="width: 134px;">
                                 <div
                                     role="group"

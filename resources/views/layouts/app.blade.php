@@ -161,51 +161,45 @@
             })
         </script>
         <script>
-            // $(document).ready( function () {
-            //     $('#myTable_simple').DataTable({
-            //     });
-            //     $('#myTable').DataTable(
-            //         {
-            //             "scrollX": true,
-            //             // "scrollY": 800,
-            //             "responsive": false,
-            //             "scrollCollapse": true,
-            //             "paging": true,
-            //             "searching": true,
-            //             "info": true,
-            //             "ordering": true,
-            //             "fixedColumns":   {
-            //                 "leftColumns": 2,
-
-            //             },
-            //             "columnDefs": [
-            //                 { "width": "100px", "targets": 0 }
-            //             ],
-            //             "dom": 'Bfrtip',
-            //             "buttons": [
-            //                 'copy', 'csv', 'excel', 'pdf', 'print'
-            //             ],
-            //             "language": {
-            //                 "lengthMenu": "Display _MENU_ records per page",
-            //                 "zeroRecords": "Nothing found - sorry",
-            //                 "info": "Showing page _PAGE_ of _PAGES_",
-            //                 "infoEmpty": "No records available",
-            //                 "infoFiltered": "(filtered from _MAX_ total records)"
-            //             },
-
-
-            //         }
-            //     );
-
-                
-
-            // } );
+            
 
               $(function () {
                 $("#myTable").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": ["excel", "pdf", "print", "colvis"]
                 }).buttons().container().appendTo('#button-wrapper .col-md-6:eq(0)');
+
+                $('#myTableFixedColumn').DataTable(
+                    {
+                        "scrollX": true,
+                        "responsive": false,
+                        "scrollCollapse": true,
+                        "paging": true,
+                        "searching": true,
+                        "info": true,
+                        "ordering": true,
+                        "fixedColumns":   {
+                            "leftColumns": 2,
+
+                        },
+                        "columnDefs": [
+                            { "width": "100px", "targets": 0 }
+                        ],
+                        "dom": 'Bfrtip',
+                        "buttons": [
+                            'excel', 'pdf', 'print'
+                        ],
+                        "language": {
+                            "lengthMenu": "Display _MENU_ records per page",
+                            "zeroRecords": "Nothing found - sorry",
+                            "info": "Showing page _PAGE_ of _PAGES_",
+                            "infoEmpty": "No records available",
+                            "infoFiltered": "(filtered from _MAX_ total records)"
+                        },
+
+
+                    }
+                );
             
             });
         </script>

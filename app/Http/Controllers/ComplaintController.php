@@ -27,13 +27,24 @@ class ComplaintController extends Controller
         $this->authorize('view-any', Complaint::class);
 
         $search = $request->get('search', '');
-
-        $complaints = Complaint::search($search)
+        //check if auth user is student then show only his/her complaints
+        if (auth()->user()->hasRole('student')) {
+            $student = Student::where('user_id', auth()->user()->id)->first();
+            $complaints = Complaint::where('student_id', $student->id)->search($search)
+                ->latest()
+                ->paginate(500)
+                ->withQueryString();
+            return view('app.complaints.index', compact('complaints', 'search'));
+        }else{
+            $complaints = Complaint::search($search)
             ->latest()
             ->paginate(500)
             ->withQueryString();
 
         return view('app.complaints.index', compact('complaints', 'search'));
+        }
+
+        
     }
 
     /**
@@ -55,7 +66,7 @@ class ComplaintController extends Controller
         $departments = Department::pluck('name', 'id');
         $programs = Program::pluck('name', 'id');
         $courses = Course::pluck('name', 'id');
-        $lectures = Lecture::pluck('image', 'id');
+        $lectures = Lecture::join('users', 'users.id', '=', 'lectures.user_id')->pluck('users.name', 'lectures.id');
         $semesters = Semester::pluck('name', 'id');
         $academicYears = AcademicYear::pluck('name', 'id');
 
