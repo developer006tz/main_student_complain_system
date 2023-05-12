@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ComplainType;
+use App\Models\Complaint;
+use App\Models\Student;
 
 
 class HomeController extends Controller
@@ -29,7 +32,13 @@ class HomeController extends Controller
 
         $role = Auth::user()->getRoleNames()[0];
         $user = Auth::user();
-        //  dd($user);
-        return view('home', compact('user', 'role'));
+         $student = Student::where('user_id', $user->id)->first();
+        //get complaints of loged in student
+        // if ($role == 'student') {
+        //     $complaints = Complaint::where('student_id', $user->student->id)->get();
+        // }
+        // dd($complaints);
+        
+        return view('home', compact('user', 'role','student'));
     }
 }

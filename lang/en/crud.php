@@ -230,7 +230,7 @@ return [
         'index_title' => 'Users List',
         'new_title' => 'New User',
         'create_title' => 'Create User',
-        'edit_title' => 'Edit User',
+        'edit_title' => 'Edit Profile',
         'show_title' => 'Show User',
         'inputs' => [
             'name' => 'Name',

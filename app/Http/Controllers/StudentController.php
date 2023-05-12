@@ -40,8 +40,9 @@ class StudentController extends Controller
     public function create(Request $request): View
     {
         $this->authorize('create', Student::class);
-
-        $users = User::pluck('name', 'id');
+        $user = auth()->user();
+        $users = $user->hasRole('student') ||  $user->hasRole('lecture')  ? collect([$user->id => $user->name]) : User::pluck('name', 'id');
+        // $users = User::pluck('name', 'id');
         $departments = Department::pluck('name', 'id');
         $programs = Program::pluck('name', 'id');
         $countries = Country::pluck('name', 'id');
@@ -60,13 +61,9 @@ class StudentController extends Controller
         $this->authorize('create', Student::class);
 
         $validated = $request->validated();
-//        if ($request->hasFile('photo')) {
-//            $validated['photo'] = $request->file('photo')->store('public');
-//        }
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            #validate photo
             $request->validate([
                 'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -84,10 +81,15 @@ class StudentController extends Controller
 
         $student = Student::create(array_merge($validated,$photo));
 
-
+        if (auth()->user()->hasRole('super-admin')) {
         return redirect()
             ->route('students.show', $student)
             ->withSuccess(__('crud.common.created'));
+        } else {
+            return redirect()
+            ->route('home')
+            ->withSuccess(__('crud.common.created'));
+        }
     }
 
     /**

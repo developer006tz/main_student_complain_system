@@ -125,8 +125,39 @@
                     </div>
                 @endif
                 @if($role=='student')
+                    @empty($student)
+                    <div class="row justify-content-center">
+                        <div class="col-11 text-center p-0 mt-3 mb-2">
+                            <div class="card px-0 pt-4 pb-0 mt-3 mb-3 text-success">
+                                <h2 id="heading">Welcome {{Auth::user()->name}}</h2>
+                                <p>Congratulation's, You are 1 step  to Finish your Registration</p>
 
-                <div class="row">
+                                <form id="msform">
+                                    <!-- progressbar -->
+                                    <ul id="progressbar">
+                                        <li class="active" id="account"><strong>Register</strong></li>
+                                        <li class="active" id="personal"><strong>Choose Role</strong></li>
+                                        <li id="payment"><strong>Fill {{Auth::user()->getRoleNames()[0];}} Info's</strong></li>
+                                        <li id="confirm"><strong>Finish</strong></li>
+                                    </ul>
+                                    <br>
+                                    <!-- fieldsets -->
+                                    <fieldset class="d-flex justify-content-center">
+                                        <a href="{{url('students/create')}}"  name="next" class="next action-button">Next</a>
+                                    </fieldset>
+                                    
+                                
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                @push('scripts')
+              <script src="{{asset('custom_js/wizard.js')}}"></script>
+            @endpush
+                    @endempty
+                    @isset($student)
+                        <div class="row">
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
                             <div class="inner">
@@ -202,36 +233,6 @@
                     <td>Win 98+ / OSX.2+</td>
                     <td>1.7</td>
                     <td>A</td>
-                  </tr><tr class="even">
-                    <td class="dtr-control sorting_1" tabindex="0">Gecko</td>
-                    <td>Firefox 1.5</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                  </tr><tr class="odd">
-                    <td class="dtr-control sorting_1" tabindex="0">Gecko</td>
-                    <td>Firefox 2.0</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                  </tr><tr class="even">
-                    <td class="dtr-control sorting_1" tabindex="0">Gecko</td>
-                    <td>Firefox 3.0</td>
-                    <td>Win 2k+ / OSX.3+</td>
-                    <td>1.9</td>
-                    <td>A</td>
-                  </tr><tr class="odd">
-                    <td class="sorting_1 dtr-control">Gecko</td>
-                    <td>Camino 1.0</td>
-                    <td>OSX.2+</td>
-                    <td>1.8</td>
-                    <td>A</td>
-                  </tr><tr class="even">
-                    <td class="sorting_1 dtr-control">Gecko</td>
-                    <td>Camino 1.5</td>
-                    <td>OSX.3+</td>
-                    <td>1.8</td>
-                    <td>A</td>
                   </tr></tbody>
                   <tfoot>
                   <tr><th rowspan="1" colspan="1">Complain type</th><th rowspan="1" colspan="1">Description</th><th rowspan="1" colspan="1">Solution</th><th rowspan="1" colspan="1">Date</th><th rowspan="1" colspan="1">Status</th></tr>
@@ -242,6 +243,9 @@
             </div>
                     </div>
                 </div>
+                    @endisset
+                
+                
                 @push('scripts')
                 <script>
                 $(function () {

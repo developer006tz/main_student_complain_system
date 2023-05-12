@@ -2,7 +2,7 @@
 
 <div class="row">
     <x-inputs.group class="col-sm-12">
-        <x-inputs.select name="user_id" label="User" required>
+        <x-inputs.select name="user_id" label="User" class="select2" required>
             @php $selected = old('user_id', ($editing ? $student->user_id : '')) @endphp
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the User</option>
             @foreach($users as $value => $label)
@@ -117,13 +117,5 @@
             @error('photo') @include('components.inputs.partials.error')
             @enderror
         </div>
-    </x-inputs.group>
-
-    <x-inputs.group class="col-sm-12">
-        <x-inputs.select name="status" label="Status">
-            @php $selected = old('status', ($editing ? $student->status : '1')) @endphp
-            <option value="1" {{ $selected == '1' ? 'selected' : '' }} >1</option>
-            <option value="0" {{ $selected == '0' ? 'selected' : '' }} >0</option>
-        </x-inputs.select>
     </x-inputs.group>
 </div>

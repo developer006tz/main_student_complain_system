@@ -29,7 +29,6 @@ class StudentUpdateRequest extends FormRequest
             'admission_id' => ['required', 'max:255', 'string'],
             'maritial_status' => ['required', 'in:single,maried'],
             'photo' => ['nullable', 'file'],
-            'status' => ['required', 'in:1,0'],
         ];
     }
 }

@@ -24,6 +24,8 @@
         <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
         <link rel="stylesheet" href="{{asset('assets/css/notyf.min.css')}}">
+         <!-- Select2 -->
+        <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}">
 
 
         <!-- Icons -->
@@ -38,7 +40,13 @@
         .nav-icon.icon:before {
             width: 25px;
         }
+
+        
         </style>
+
+        @if(!empty($role) == 'student' && empty($student))
+        <link rel="stylesheet" href="{{asset('custom_css/wizard.css')}}">
+        @endif
 
 
         <script type="module">
@@ -86,12 +94,17 @@
 
         <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
         <script src="../node_modules/alpinejs/dist/cdn.min.js" defer></script>
+        <!-- Select2 -->
+        <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 
         @livewireScripts
 
         <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
 
         @stack('scripts')
+        <script>
+            $('.select2').select2()
+        </script>
 
         <script src="{{asset('assets/js/notyf.min.js')}}"></script>
 
