@@ -165,8 +165,9 @@
 
                                 <p>Profile</p>
                             </div>
+                            
                             <div class="icon">
-                                <i class="icon ion-md-archive"></i>
+                                <i class="icon fas fa-user-plus"></i>
                             </div>
                             <a href="#" class="small-box-footer">view your profile<i class="fas fa-arrow-circle-right"></i></a>
                         </div>
@@ -178,9 +179,11 @@
 
                                 <p>Total complaints</p>
                             </div>
+                            
                             <div class="icon">
-                                <i class="icon ion-md-checkmark-circle"></i>
+                                <i class="fa-sharp fa fa-folder-open"></i>
                             </div>
+                            
                             <a href="#" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -192,7 +195,7 @@
                                 <p>Resolved</p>
                             </div>
                             <div class="icon">
-                                <i class="icon ion-md-people"></i>
+                                <i class="fas fa-check"></i>
                             </div>
                             <a href="#" class="small-box-footer">view <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
@@ -204,7 +207,7 @@
                                 <p>Failed</p>
                             </div>
                             <div class="icon">
-                                <i class="icon ion-md-people"></i>
+                               <i class="fas fa-file-excel"></i>
                             </div>
                             <a href="#" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
                         </div>
