@@ -61,7 +61,7 @@ class DepartmentHeadController extends Controller
         $departmentHead = DepartmentHead::create($validated);
 
         return redirect()
-            ->route('department-heads.edit', $departmentHead)
+            ->route('department-heads.index', $departmentHead)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -105,7 +105,7 @@ class DepartmentHeadController extends Controller
         $departmentHead->update($validated);
 
         return redirect()
-            ->route('department-heads.edit', $departmentHead)
+            ->route('department-heads.index', $departmentHead)
             ->withSuccess(__('crud.common.saved'));
     }
 

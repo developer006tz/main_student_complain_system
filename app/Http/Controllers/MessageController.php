@@ -53,7 +53,7 @@ class MessageController extends Controller
         $message = Message::create($validated);
 
         return redirect()
-            ->route('messages.edit', $message)
+            ->route('messages.index', $message)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -93,7 +93,7 @@ class MessageController extends Controller
         $message->update($validated);
 
         return redirect()
-            ->route('messages.edit', $message)
+            ->route('messages.index', $message)
             ->withSuccess(__('crud.common.saved'));
     }
 

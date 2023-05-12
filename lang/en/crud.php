@@ -16,7 +16,7 @@ return [
         'search' => 'Search...',
         'back' => 'Back to Index',
         'are_you_sure' => 'Are you sure?',
-        'no_items_found' => 'No items found',
+        'no_items_found' => 'No record found',
         'created' => 'Successfully created',
         'saved' => 'Saved successfully',
         'removed' => 'Successfully removed',

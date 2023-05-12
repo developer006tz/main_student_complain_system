@@ -44,7 +44,14 @@ class ComplaintController extends Controller
         $this->authorize('create', Complaint::class);
 
         $complainTypes = ComplainType::pluck('name', 'id');
-        $students = Student::pluck('date_of_birth', 'id');
+
+       
+
+        if (auth()->user()->hasRole('student')) {
+            $students = Student::where('user_id', auth()->user()->id)->join('users', 'users.id', '=', 'students.user_id')->pluck('users.name', 'students.id');
+        } else {
+            $students = Student::join('users', 'users.id', '=', 'students.user_id')->pluck('users.name', 'students.id');
+        }
         $departments = Department::pluck('name', 'id');
         $programs = Program::pluck('name', 'id');
         $courses = Course::pluck('name', 'id');

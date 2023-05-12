@@ -59,7 +59,7 @@ class LectureController extends Controller
         $lecture = Lecture::create($validated);
 
         return redirect()
-            ->route('lectures.edit', $lecture)
+            ->route('lectures.index', $lecture)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -110,7 +110,7 @@ class LectureController extends Controller
         $lecture->update($validated);
 
         return redirect()
-            ->route('lectures.edit', $lecture)
+            ->route('lectures.index', $lecture)
             ->withSuccess(__('crud.common.saved'));
     }
 

@@ -62,7 +62,7 @@ class CourseController extends Controller
         $course = Course::create($validated);
 
         return redirect()
-            ->route('courses.edit', $course)
+            ->route('courses.index', $course)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -114,7 +114,7 @@ class CourseController extends Controller
         $course->update($validated);
 
         return redirect()
-            ->route('courses.edit', $course)
+            ->route('courses.index', $course)
             ->withSuccess(__('crud.common.saved'));
     }
 

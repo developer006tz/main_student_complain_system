@@ -56,7 +56,7 @@ class RoleController extends Controller {
         $role->syncPermissions($permissions);
 
         return redirect()
-            ->route('roles.edit', $role->id)
+            ->route('roles.index', $role->id)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -102,7 +102,7 @@ class RoleController extends Controller {
         $role->syncPermissions($permissions);
 
         return redirect()
-            ->route('roles.edit', $role->id)
+            ->route('roles.index', $role->id)
             ->withSuccess(__('crud.common.saved'));
     }
 

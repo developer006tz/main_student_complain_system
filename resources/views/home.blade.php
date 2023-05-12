@@ -219,6 +219,9 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                <div class="row d-flex justify-content-end">
+                    <a href="{{url("complaints/create")}}" class="btn btn-primary">create new complaint</a>
+                </div>
                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
@@ -227,13 +230,24 @@
                   <tr role="row"><th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Complain type</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Description</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Solution</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">date submitted</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Status</th></tr>
                   </thead>
                   <tbody>
+                    @forelse($complaints as $complaint)
+
                   <tr class="odd">
-                    <td class="dtr-control sorting_1" tabindex="0">Gecko</td>
-                    <td>Firefox 1.0</td>
-                    <td>Win 98+ / OSX.2+</td>
-                    <td>1.7</td>
-                    <td>A</td>
-                  </tr></tbody>
+                    <td class="dtr-control sorting_1" tabindex="0">{{ optional($complaint->complainType)->name ??
+                                '-' }}</td>
+                    <td>{{ $complaint->description ?? '-' }}</td>
+                    <td>{{ $complaint->solution ?? '-' }}</td>
+                    <td>{{ $complaint->date ?? '-' }}</td>
+                    <td>{{ $complaint->status == '0' ? 'pending': ('1' ? 'resolved' : 'failed')}}</td>
+                  </tr>
+                   @empty
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                @lang('crud.common.no_items_found')
+                            </td>
+                        </tr>
+                        @endforelse
+                </tbody>
                   <tfoot>
                   <tr><th rowspan="1" colspan="1">Complain type</th><th rowspan="1" colspan="1">Description</th><th rowspan="1" colspan="1">Solution</th><th rowspan="1" colspan="1">Date</th><th rowspan="1" colspan="1">Status</th></tr>
                   </tfoot>

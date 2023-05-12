@@ -34,11 +34,13 @@ class HomeController extends Controller
         $user = Auth::user();
          $student = Student::where('user_id', $user->id)->first();
         //get complaints of loged in student
-        // if ($role == 'student') {
-        //     $complaints = Complaint::where('student_id', $user->student->id)->get();
-        // }
-        // dd($complaints);
+        if ($role == 'student' && $student) {
+            $complaints = Complaint::where('student_id', $user->student->id)->get();
+            return view('home', compact('user', 'role', 'student', 'complaints'));
+        }else{
+            return view('home', compact('user', 'role','student'));
+        }
         
-        return view('home', compact('user', 'role','student'));
+        
     }
 }

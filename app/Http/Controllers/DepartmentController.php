@@ -50,7 +50,7 @@ class DepartmentController extends Controller
         $department = Department::create($validated);
 
         return redirect()
-            ->route('departments.edit', $department)
+            ->route('departments.index', $department)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -88,7 +88,7 @@ class DepartmentController extends Controller
         $department->update($validated);
 
         return redirect()
-            ->route('departments.edit', $department)
+            ->route('departments.index', $department)
             ->withSuccess(__('crud.common.saved'));
     }
 

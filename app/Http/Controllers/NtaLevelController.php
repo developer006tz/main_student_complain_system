@@ -50,7 +50,7 @@ class NtaLevelController extends Controller
         $ntaLevel = NtaLevel::create($validated);
 
         return redirect()
-            ->route('nta-levels.edit', $ntaLevel)
+            ->route('nta-levels.index', $ntaLevel)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -88,7 +88,7 @@ class NtaLevelController extends Controller
         $ntaLevel->update($validated);
 
         return redirect()
-            ->route('nta-levels.edit', $ntaLevel)
+            ->route('nta-levels.index', $ntaLevel)
             ->withSuccess(__('crud.common.saved'));
     }
 

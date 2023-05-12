@@ -31,7 +31,6 @@ class ComplaintStoreRequest extends FormRequest
             'description' => ['required', 'max:255', 'string'],
             'solution' => ['required', 'max:255', 'string'],
             'date' => ['required', 'date'],
-            'status' => ['required', 'in:0,1,2,3,4'],
         ];
     }
 }

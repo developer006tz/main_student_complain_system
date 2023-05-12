@@ -55,7 +55,7 @@ class ProgramController extends Controller
         $program = Program::create($validated);
 
         return redirect()
-            ->route('programs.edit', $program)
+            ->route('programs.index', $program)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -99,7 +99,7 @@ class ProgramController extends Controller
         $program->update($validated);
 
         return redirect()
-            ->route('programs.edit', $program)
+            ->route('programs.index', $program)
             ->withSuccess(__('crud.common.saved'));
     }
 

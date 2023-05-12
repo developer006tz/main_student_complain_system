@@ -50,7 +50,7 @@ class SemesterController extends Controller
         $semester = Semester::create($validated);
 
         return redirect()
-            ->route('semesters.edit', $semester)
+            ->route('semesters.index', $semester)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -88,7 +88,7 @@ class SemesterController extends Controller
         $semester->update($validated);
 
         return redirect()
-            ->route('semesters.edit', $semester)
+            ->route('semesters.index', $semester)
             ->withSuccess(__('crud.common.saved'));
     }
 

@@ -50,7 +50,7 @@ class CountryController extends Controller
         $country = Country::create($validated);
 
         return redirect()
-            ->route('countries.edit', $country)
+            ->route('countries.index', $country)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -88,7 +88,7 @@ class CountryController extends Controller
         $country->update($validated);
 
         return redirect()
-            ->route('countries.edit', $country)
+            ->route('countries.index', $country)
             ->withSuccess(__('crud.common.saved'));
     }
 

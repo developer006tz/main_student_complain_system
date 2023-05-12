@@ -62,7 +62,7 @@ class EnrollmentController extends Controller
         $enrollment = Enrollment::create($validated);
 
         return redirect()
-            ->route('enrollments.edit', $enrollment)
+            ->route('enrollments.index', $enrollment)
             ->withSuccess(__('crud.common.created'));
     }
 
@@ -114,7 +114,7 @@ class EnrollmentController extends Controller
         $enrollment->update($validated);
 
         return redirect()
-            ->route('enrollments.edit', $enrollment)
+            ->route('enrollments.index', $enrollment)
             ->withSuccess(__('crud.common.saved'));
     }
 
