@@ -61,7 +61,11 @@
                         <a href="#" class="nav-link  {{ $complaint_routes ? 'active' : '' }}">
                             <i class="nav-icon icon ion-md-filing"></i>
                             <p>
-                                Manage Complaints
+                                @if(Auth::user()->hasRole('super-admin','department-head'))
+                                    Manage Complaints
+                                @else
+                                    My Complaints
+                                @endif
                                 <i class="nav-icon right icon ion-md-arrow-dropleft"></i>
                             </p>
                         </a>
