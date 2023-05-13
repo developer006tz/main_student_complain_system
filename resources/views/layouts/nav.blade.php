@@ -151,18 +151,21 @@
         </li>
         <li class="nav-item dropdown user-menu">
             @php
-           $role = Auth::user()->getRoleNames()[0];
+            $user = Auth::user();
+           $role = $user->getRoleNames()[0];
             $photo = "profile.png";
             if($role == 'student'){
-                $student = Auth::user()->student()->first();
+                $student = $user->student()->first();
+                 $student_id = $student->id;
                 if($student){
                     $photo = $student->photo ?? $photo;
-                    $student_id = $student->id;
+                   
                 }
-            }elseif($role == 'teacher'){
-                $teacher = Auth::user()->teacher()->first();
-                if($teacher){
-                    $photo = $teacher->photo ?? $photo;
+            }elseif($role == 'lecturer'){
+                $lecture = $user->lecture()->first();
+                $lecture_id = $lecture->id;
+                if($lecture){
+                    $photo = $lecture->photo ?? $photo;
                 }
             }
 
@@ -170,7 +173,7 @@
 
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           <img src="{{asset("uploads/student/$photo")}}" class="user-image img-circle elevation-2" alt="User Image">
-          <span class="d-none d-md-inline">{{Auth::user()->name}}</span>
+          <span class="d-none d-md-inline">{{$user->name}}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
           <!-- User image -->
@@ -178,16 +181,22 @@
             <img src="{{asset("uploads/student/$photo")}}" class="img-circle elevation-2" alt="User Image">
 
             <p>
-              {{Auth::user()->name}} - {{$role}}
-              <small>Member since: {{Auth::user()->created_at}}</small>
+              {{$user->name}} - {{$role}}
+              <small>Member since: {{$user->created_at}}</small>
             </p>
           </li>
           <!-- Menu Body -->
           <!-- Menu Footer-->
           <li class="user-footer">
-            @if($role != 'super-admin')
-            <a href="{{url("students/$student_id")}}" class="btn btn-default btn-flat">Profile</a>
-            @endif
+                @php
+                    $url = !empty($student_id) && $role == 'student' ? url("students/$student_id") :
+                        (!empty($lecture_id) && $role == 'lecturer' ? url("lectures/$lecture_id") :
+                        url("users/$user->id"));
+                @endphp
+                <a href="{{ $url }}" class="btn btn-default btn-flat">Profile</a>
+            
+
+
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-up-left').submit();" class="btn btn-default text-danger btn-outline-danger btn-flat float-right">Sign out</a>
             <form id="logout-form-up-left" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf

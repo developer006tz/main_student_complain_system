@@ -19,9 +19,6 @@
 
     <div class="card">
         <div class="card-body">
-            
-
-            <div  class="dataTables_wrapper dt-bootstrap4"  id="button-wrapper">
                 <table class="table table-bordered table-striped dataTable dtr-inline" role="grid" id="myTable">
                     <thead>
                         <tr>
