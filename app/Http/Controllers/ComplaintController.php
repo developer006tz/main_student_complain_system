@@ -123,7 +123,7 @@ class ComplaintController extends Controller
         $departments = Department::pluck('name', 'id');
         $programs = Program::pluck('name', 'id');
         $courses = Course::pluck('name', 'id');
-        $lectures = Lecture::pluck('image', 'id');
+        $lectures = Lecture::join('users', 'users.id', '=', 'lectures.user_id')->pluck('users.name', 'lectures.id');
         $semesters = Semester::pluck('name', 'id');
         $academicYears = AcademicYear::pluck('name', 'id');
 

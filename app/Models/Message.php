@@ -11,7 +11,7 @@ class Message extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['body', 'user_id', 'phone', 'send_status', 'type'];
+    protected $fillable = ['body', 'user_id', 'sender_id', 'phone', 'send_status', 'type'];
 
     protected $searchableFields = ['*'];
 

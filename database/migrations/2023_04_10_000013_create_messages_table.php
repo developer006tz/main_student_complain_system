@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->text('body');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('sender_id')->nullable();
             $table->string('phone')->nullable();
             $table
                 ->enum('send_status', ['0', '1', '2', '3', '4'])

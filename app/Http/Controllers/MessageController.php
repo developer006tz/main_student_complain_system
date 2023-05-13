@@ -21,10 +21,21 @@ class MessageController extends Controller
 
         $search = $request->get('search', '');
 
-        $messages = Message::search($search)
+        
+        
+        //if the auth user is student show only message which is sent to his user profile
+        if (auth()->user()->hasRole('super-admin')) {
+            $messages = Message::search($search)
             ->latest()
             ->paginate(500)
             ->withQueryString();
+            
+        }else{
+            $messages = Message::where('user_id', auth()->user()->id)->search($search)
+                ->latest()
+                ->paginate(500)
+                ->withQueryString();
+        }    
 
         return view('app.messages.index', compact('messages', 'search'));
     }
@@ -49,8 +60,9 @@ class MessageController extends Controller
         $this->authorize('create', Message::class);
 
         $validated = $request->validated();
+        $sender_id = auth()->user()->id;
 
-        $message = Message::create($validated);
+        $message = Message::create($validated + ['sender_id' => $sender_id]);
 
         return redirect()
             ->route('messages.index', $message)
@@ -63,8 +75,20 @@ class MessageController extends Controller
     public function show(Request $request, Message $message): View
     {
         $this->authorize('view', $message);
+        //if the auth user is student show only message which is sent to his user profile
+        $uri = last(explode('/', $request->path()));
+        if(auth()->user()->hasRole('super-admin')){
+            return view('app.messages.show', compact('message'));
+        }else {
+            $message = Message::select('messages.id', 'messages.body','messages.phone','receiver.phone as receiver_phone','sender.phone as sender_phone', 'messages.created_at', 'receiver.name as receiver_name', 'sender.name as sender_name')
+            ->where('user_id', auth()->user()->id)->where('messages.id', $uri)
+                ->join('users as receiver', 'receiver.id', '=', 'messages.user_id')
+                ->join('users as sender', 'sender.id', '=', 'messages.sender_id')->first();
+            return view('app.messages.show', compact('message'));
+        }
 
-        return view('app.messages.show', compact('message'));
+
+        
     }
 
     /**
@@ -89,8 +113,9 @@ class MessageController extends Controller
         $this->authorize('update', $message);
 
         $validated = $request->validated();
+        $sender_id = auth()->user()->id;
 
-        $message->update($validated);
+        $message->update($validated + ['sender_id' => $sender_id]);
 
         return redirect()
             ->route('messages.index', $message)

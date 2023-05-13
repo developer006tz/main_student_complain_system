@@ -74,7 +74,7 @@
                                             type="button"
                                             class="btn btn-outline-primary btn-sm"
                                         >
-                                            <i class="icon ion-md-create"></i>
+                                            <i class="icon fas fa-edit"></i>
                                         </button>
                                     </a>
                                     @endcan @can('view', $program)
@@ -85,7 +85,7 @@
                                             type="button"
                                             class="btn btn-outline-success btn-sm"
                                         >
-                                            <i class="icon ion-md-eye"></i>
+                                            <i class="icon fa fa-eye"></i>
                                         </button>
                                     </a>
                                     @endcan @can('delete', $program)
@@ -99,7 +99,7 @@
                                             type="submit"
                                             class="btn btn-block btn-outline-danger btn-sm"
                                         >
-                                            <i class="icon ion-md-trash"></i>
+                                            <i class="icon fa fa-trash"></i>
                                         </button>
                                     </form>
                                     @endcan

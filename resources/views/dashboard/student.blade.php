@@ -111,9 +111,9 @@
                   <tr class="odd">
                     <td class="dtr-control sorting_1" tabindex="0">{{ optional($complaint->complainType)->name ??
                                 '-' }}</td>
-                    <td>{{ $complaint->description ?? '-' }}</td>
-                    <td>{{ $complaint->solution ?? '-' }}</td>
-                    <td>{{ $complaint->date ?? '-' }}</td>
+                    <td>{!! Str::limit(strip_tags($complaint->description),100) ?? '-' !!}</td>
+                    <td>{!! Str::limit(strip_tags($complaint->solution),100) ?? '-' !!}</td>
+                    <td>{{ \Carbon\Carbon::parse($complaint->date)->format('d/m/Y') ?? '-' }}</td>
                     <td>
     {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
 </td>

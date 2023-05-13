@@ -95,25 +95,49 @@
         >
     </x-inputs.group> --}}
 
-     <div class="col-sm-12">
+     <div class="col-sm-12 my-2">
           <div class="card card-outline card-info">
             <div class="card-header">
               <h3 class="card-title">
-                Describe your Complaints
+                <b>Describe your Complaints</b>
               </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <textarea id="summernote" name="description" required>
+              <textarea class="summernote" name="description">
                {{ old('description', ($editing ? $complaint->description : 'Write your complaints Here'))
             }}
               </textarea>
+              @error('description')
+                <p class="text-danger" role="alert">{{ $message }}</p>
+            @enderror
             </div>
            
           </div>
         </div>
 
-    <x-inputs.group class="col-sm-12">
+        <div class="col-sm-12 my-2">
+          <div class="card card-outline card-info">
+            <div class="card-header">
+              <h3 class="card-title">
+                <b>Propose your Solution</b>
+              </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <textarea id="summernote" class="summernote" name="solution">
+               {{ old('description', ($editing ? $complaint->solution : 'Write your Solution Here'))
+            }}
+              </textarea>
+              @error('solution')
+            <p class="text-danger" role="alert">{{ $message }}</p>
+        @enderror
+            </div>
+           
+          </div>
+        </div>
+
+    {{-- <x-inputs.group class="col-sm-12">
         <x-inputs.textarea
             name="solution"
             label="Solution"
@@ -122,7 +146,7 @@
             >{{ old('solution', ($editing ? $complaint->solution : ''))
             }}</x-inputs.textarea
         >
-    </x-inputs.group>
+    </x-inputs.group> --}}
 
     <x-inputs.group class="col-sm-12">
         <x-inputs.date

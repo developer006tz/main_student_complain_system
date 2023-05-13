@@ -2,6 +2,10 @@
 
 @section('content')
 <div class="container">
+    <div class="text">
+        <h2 class="mb-2">@lang('crud.messages.show_title')</h2>
+    </div>
+    @if(Auth::user()->hasRole('super-admin'))
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">
@@ -48,5 +52,10 @@
             </div>
         </div>
     </div>
+    @else
+    @include('app.messages.student-read')
+    @endif
+
+
 </div>
 @endsection

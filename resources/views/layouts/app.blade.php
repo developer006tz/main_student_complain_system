@@ -169,7 +169,7 @@
             })
         </script>
         <script>
-            $('#summernote').summernote(
+            $('.summernote').summernote(
                 {
                     height: 200,
                     callbacks: {

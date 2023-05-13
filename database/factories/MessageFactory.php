@@ -28,6 +28,7 @@ class MessageFactory extends Factory
             'send_status' => '0',
             'type' => '1',
             'user_id' => \App\Models\User::factory(),
+            'sender_id' => \App\Models\User::factory(),
         ];
     }
 }

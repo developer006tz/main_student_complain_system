@@ -2,13 +2,16 @@
 
 @section('content')
 <div class="container">
+    <div class="text">
+        <h2 class="mb-2">@lang('crud.complaints.edit_title')</h2>
+    </div>
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">
                 <a href="{{ route('complaints.index') }}" class="mr-4"
                     ><i class="icon ion-md-arrow-back"></i
                 ></a>
-                @lang('crud.complaints.edit_title')
+                
             </h4>
 
             <x-form

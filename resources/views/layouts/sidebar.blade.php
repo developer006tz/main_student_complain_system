@@ -61,7 +61,7 @@
                         <a href="#" class="nav-link  {{ $complaint_routes ? 'active' : '' }}">
                             <i class="nav-icon icon ion-md-filing"></i>
                             <p>
-                                @if(Auth::user()->hasRole('super-admin','department-head'))
+                                @if(Auth::user()->hasRole('super-admin'))
                                     Manage Complaints
                                 @else
                                     My Complaints
@@ -114,7 +114,7 @@
                         </ul>
                     </li>
 {{--                start manage users--}}
-                    @if(Auth::user()->hasRole('super-admin','department-head'))
+                    @if(Auth::user()->hasRole('super-admin'))
                     <li class="nav-item {{ $user_routes || $student_routes || $lecture_routes || $department_head_routes ? 'menu-is-opening menu-open' : '' }}">
                         <a href="#" class="nav-link {{ $user_routes || $student_routes || $lecture_routes || $department_head_routes ? 'active' : '' }}">
                             <i class="nav-icon icon ion-md-people"></i>

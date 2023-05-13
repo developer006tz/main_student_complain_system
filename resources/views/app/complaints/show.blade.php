@@ -2,82 +2,87 @@
 
 @section('content')
 <div class="container">
+    <div class="text">
+        <h2 class="mb-2">@lang('crud.complaints.show_title')</h2>
+    </div>
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">
                 <a href="{{ route('complaints.index') }}" class="mr-4"
                     ><i class="icon ion-md-arrow-back"></i
                 ></a>
-                @lang('crud.complaints.show_title')
             </h4>
 
+            {{-- table --}}
+            <table class="table table-sm">
+                  <thead>
+                    <tr>
+                        <th scope="col">Date Submitted</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <td>{{\Carbon\Carbon::parse($complaint->date)->format('Y-m-d') ?? '-' }}</td>
+                        <td>
+                        {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
+                        </td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+            <table class="table table-bordered">
+                  <thead>
+                    <tr @style(['background:#003cff5e']) >
+                      <th>Complain type</th>
+                      <th>Student</th>
+                      <th >Department</th>
+                      <th >Program</th>
+                        <th >Course</th>
+                        <th >Lecturer</th>
+                        <th >Semester</th>
+                        <th >Academic year</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <td>{{ optional($complaint->complainType)->name ?? '-' }}</td>
+                        <td>{{ optional($complaint->student)->user->name ?? '-' }}</td>
+                        <td>{{ optional($complaint->department)->name ?? '-' }}</td>
+                        <td>{{ optional($complaint->program)->name ?? '-' }}</td>
+                        <td>{{ optional($complaint->course)->name ?? '-' }}</td>
+                        <td>{{ optional($complaint->lecture)->image ?? '-' }}</td>
+                        <td>{{ optional($complaint->semester)->name ?? '-' }}</td>
+                        <td>{{ optional($complaint->academicYear)->name ?? '-' }}</td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+
+                
+            {{-- table end --}}
+
             <div class="mt-4">
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.complain_type_id')</h5>
-                    <span
-                        >{{ optional($complaint->complainType)->name ?? '-'
-                        }}</span
-                    >
+                <div class="card">
+                    <div class="card-header">
+                        <h3>@lang('crud.complaints.inputs.description')</h3>
+                    </div>
+                    <div class="card-body" @style(['background:#106ed821'])>
+                        {!! $complaint->description ?? '-' !!}
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.student_id')</h5>
-                    <span
-                        >{{ optional($complaint->student)->date_of_birth ?? '-'
-                        }}</span
-                    >
+            </div>
+            <div class="mt-4">
+                 <div class="card">
+                    <div class="card-header">
+                        <h3>@lang('crud.complaints.inputs.solution')</h3>
+                    </div>
+                    <div class="card-body" @style(['background:#106ed821'])>
+                        {!! $complaint->solution ?? '-' !!}
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.department_id')</h5>
-                    <span
-                        >{{ optional($complaint->department)->name ?? '-'
-                        }}</span
-                    >
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.program_id')</h5>
-                    <span
-                        >{{ optional($complaint->program)->name ?? '-' }}</span
-                    >
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.course_id')</h5>
-                    <span>{{ optional($complaint->course)->name ?? '-' }}</span>
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.lecture_id')</h5>
-                    <span
-                        >{{ optional($complaint->lecture)->image ?? '-' }}</span
-                    >
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.semester_id')</h5>
-                    <span
-                        >{{ optional($complaint->semester)->name ?? '-' }}</span
-                    >
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.academic_year_id')</h5>
-                    <span
-                        >{{ optional($complaint->academicYear)->name ?? '-'
-                        }}</span
-                    >
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.description')</h5>
-                    <span>{!! $complaint->description ?? '-' !!}</span>
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.solution')</h5>
-                    <span>{{ $complaint->solution ?? '-' }}</span>
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.date')</h5>
-                    <span>{{ $complaint->date ?? '-' }}</span>
-                </div>
-                <div class="mb-4">
-                    <h5>@lang('crud.complaints.inputs.status')</h5>
-                    <span>{{ $complaint->status ?? '-' }}</span>
-                </div>
+                
             </div>
 
             <div class="mt-4">
