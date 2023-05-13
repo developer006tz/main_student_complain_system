@@ -151,15 +151,21 @@
         </li>
         <li class="nav-item dropdown user-menu">
             @php
-            $role = Auth::user()->getRoleNames()[0];
+           $role = Auth::user()->getRoleNames()[0];
+            $photo = "profile.png";
             if($role == 'student'){
-                $photo = Auth::user()->student()->first()->photo;
-                $student_id = Auth::user()->student()->first()->id;
+                $student = Auth::user()->student()->first();
+                if($student){
+                    $photo = $student->photo ?? $photo;
+                    $student_id = $student->id;
+                }
             }elseif($role == 'teacher'){
-                $photo = Auth::user()->teacher()->first()->photo;
-            }else{
-                $photo = "profile.png";
+                $teacher = Auth::user()->teacher()->first();
+                if($teacher){
+                    $photo = $teacher->photo ?? $photo;
+                }
             }
+
             @endphp
 
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
