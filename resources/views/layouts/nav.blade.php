@@ -1,35 +1,3 @@
-{{--<nav class="navbar navbar-expand navbar-light navbar-white">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-                    <i class="icon ion-md-menu"></i>
-                </a>
-            </li>
-        </ul>
-
-        <!-- Right Side Of Navbar -->
-        <ul class="navbar-nav ml-auto">
-            <!-- Authentication Links -->
-            @guest
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                @endif
-            @endguest
-        </ul>
-    </div>
-</nav>--}}
-
 
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
@@ -39,7 +7,9 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"> <i class="icon ion-md-menu"></i></a>
         </li>
     </ul>
-
+    @php
+$user = Auth::user();
+@endphp
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
@@ -151,23 +121,21 @@
         </li>
         <li class="nav-item dropdown user-menu">
             @php
-            $user = Auth::user();
-           $role = $user->getRoleNames()[0];
+            $role = Auth::user()->getRoleNames()[0];
             $photo = "profile.png";
             if($role == 'student'){
-                $student = $user->student()->first();
-                 $student_id = $student->id;
+                $student = Auth::user()->student()->first();
                 if($student){
                     $photo = $student->photo ?? $photo;
-                   
+                    $student_id = $student->id;
                 }
-            }elseif($role == 'lecturer'){
-                $lecture = $user->lecture()->first();
-                $lecture_id = $lecture->id;
-                if($lecture){
-                    $photo = $lecture->photo ?? $photo;
+            }elseif($role == 'teacher'){
+                $teacher = Auth::user()->teacher()->first();
+                if($teacher){
+                    $photo = $teacher->photo ?? $photo;
                 }
             }
+
 
             @endphp
 
