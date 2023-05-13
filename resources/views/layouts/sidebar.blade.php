@@ -110,6 +110,7 @@
                         </ul>
                     </li>
 {{--                start manage users--}}
+                    @if(Auth::user()->hasRole('super-admin','department-head'))
                     <li class="nav-item {{ $user_routes || $student_routes || $lecture_routes || $department_head_routes ? 'menu-is-opening menu-open' : '' }}">
                         <a href="#" class="nav-link {{ $user_routes || $student_routes || $lecture_routes || $department_head_routes ? 'active' : '' }}">
                             <i class="nav-icon icon ion-md-people"></i>
@@ -154,6 +155,7 @@
                                 @endcan
                         </ul>
                     </li>
+                    @endif
 {{--                      end manage users      --}}
 
                     @can('view-any', App\Models\Message::class)
@@ -165,6 +167,7 @@
                         </li>
                     @endcan
                     {{--start settings--}}
+                    @if(Auth::user()->hasRole('super-admin','department-head'))
                     <li class="nav-item {{ $department_routes || $semester_routes || $programe_routes || $course_routes || $complaint_type_routes || $nta_level_routes || $academic_year_routes || $enrollment_routes || $countrie_routes ? 'menu-is-opening menu-open' : '' }}">
                         <a href="#" class="nav-link {{ $department_routes || $semester_routes || $programe_routes || $course_routes || $complaint_type_routes || $nta_level_routes || $academic_year_routes || $enrollment_routes || $countrie_routes ? 'active' : '' }}">
                             <i class="nav-icon icon ion-md-settings"></i>
@@ -252,6 +255,7 @@
 
                         </ul>
                     </li>
+                    @endif
                     {{--end settings--}}
 
                 @if (Auth::user()->can('view-any', Spatie\Permission\Models\Role::class) ||
