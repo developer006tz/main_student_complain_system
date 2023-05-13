@@ -20,12 +20,15 @@
         <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/datatables-fixedcolumns/css/fixedColumns.bootstrap4.min.css') }}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
         <link rel="stylesheet" href="{{asset('assets/css/notyf.min.css')}}">
          <!-- Select2 -->
         <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}">
+        <!-- summernote -->
+         <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 
 
         <!-- Icons -->
@@ -85,6 +88,8 @@
         <script src="{{ URL::to('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
         <script src="{{ URL::to('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
         <script src="{{ URL::to('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+        <script src="{{ URL::to('plugins/datatables-fixedcolumns/js/dataTables.fixedColumns.min.js')}}"></script>
+        <script src="{{ URL::to('plugins/datatables-fixedcolumns/js/fixedColumns.bootstrap4.min.js')}}"></script>
         <script src="{{ URL::to('plugins/jszip/jszip.min.js')}}"></script>
         <script src="{{ URL::to('plugins/pdfmake/pdfmake.min.js')}}"></script>
         <script src="{{ URL::to('plugins/pdfmake/vfs_fonts.js')}}"></script>
@@ -96,6 +101,9 @@
         <script src="../node_modules/alpinejs/dist/cdn.min.js" defer></script>
         <!-- Select2 -->
         <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+        <!-- Summernote -->
+
+        <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
 
         @livewireScripts
 
@@ -161,9 +169,33 @@
             })
         </script>
         <script>
+            $('#summernote').summernote(
+                {
+                    height: 200,
+                    callbacks: {
+                        onImageUpload: function(files) {
+                        var formData = new FormData();
+                        formData.append('file', files[0]);
+                        $.ajax({
+                            url: '/upload',
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                            $('#summernote').summernote('insertImage', response.url);
+                            }
+                        });
+                        }
+                    },
+
+                }
+            );
             
 
               $(function () {
+                   // Summernote
+                
                 $("#myTable").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": ["excel", "pdf", "print", "colvis"]
@@ -183,7 +215,12 @@
 
                         },
                         "columnDefs": [
-                            { "width": "100px", "targets": 0 }
+                            { "width": "500px", "targets": 8 },
+                            { "width": "500px", "targets": 9 },
+                            { "width": "80px", "targets": 10 },
+                            { "width": "150px", "targets": 0 },
+                            { "width": "150px", "targets": 1 },
+
                         ],
                         "dom": 'Bfrtip',
                         "buttons": [
@@ -200,6 +237,9 @@
 
                     }
                 );
+
+               
+
             
             });
         </script>

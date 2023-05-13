@@ -64,7 +64,7 @@
                 </div>
                 <div class="mb-4">
                     <h5>@lang('crud.complaints.inputs.description')</h5>
-                    <span>{{ $complaint->description ?? '-' }}</span>
+                    <span>{!! $complaint->description ?? '-' !!}</span>
                 </div>
                 <div class="mb-4">
                     <h5>@lang('crud.complaints.inputs.solution')</h5>

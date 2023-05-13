@@ -83,22 +83,41 @@
         </x-inputs.select>
     </x-inputs.group>
 
-    <x-inputs.group class="col-sm-12">
+    {{-- <x-inputs.group class="col-sm-12">
         <x-inputs.textarea
             name="description"
             label="Description"
-            maxlength="255"
+            maxlength="65530"
+            id="summernote"
             required
             >{{ old('description', ($editing ? $complaint->description : ''))
             }}</x-inputs.textarea
         >
-    </x-inputs.group>
+    </x-inputs.group> --}}
+
+     <div class="col-sm-12">
+          <div class="card card-outline card-info">
+            <div class="card-header">
+              <h3 class="card-title">
+                Describe your Complaints
+              </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <textarea id="summernote" name="description" required>
+               {{ old('description', ($editing ? $complaint->description : 'Write your complaints Here'))
+            }}
+              </textarea>
+            </div>
+           
+          </div>
+        </div>
 
     <x-inputs.group class="col-sm-12">
         <x-inputs.textarea
             name="solution"
             label="Solution"
-            maxlength="255"
+            maxlength="65530"
             required
             >{{ old('solution', ($editing ? $complaint->solution : ''))
             }}</x-inputs.textarea

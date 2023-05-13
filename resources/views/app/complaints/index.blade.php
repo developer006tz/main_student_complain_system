@@ -23,7 +23,7 @@
     <div class="card">
         <div class="card-body">
             <div  class="dataTables_wrapper dt-bootstrap4" id="button-wrapper">
-                <table class="table table-bordered table-striped dataTable dtr-inline" role="grid"  id="myTable">
+                <table class="table table-bordered table-striped dataTable dtr-inline" role="grid"  id="myTableFixedColumn">
                     <thead>
                         <tr>
                             <th class="text-left">
@@ -75,7 +75,7 @@
                                 '-' }}
                             </td>
                             <td>
-                                {{ optional($complaint->student)->date_of_birth
+                                {{ optional($complaint->student)->user->name
                                 ?? '-' }}
                             </td>
                             <td>
@@ -100,9 +100,9 @@
                                 {{ optional($complaint->academicYear)->name ??
                                 '-' }}
                             </td>
-                            <td>{{ $complaint->description ?? '-' }}</td>
-                            <td>{{ $complaint->solution ?? '-' }}</td>
-                            <td>{{ $complaint->date ?? '-' }}</td>
+                            <td>{!! Str::limit(strip_tags($complaint->description),100) ?? '-' !!}</td>
+                            <td>{!! Str::limit(strip_tags($complaint->solution),100) ?? '-' !!}</td>
+                            <td>{{ \Carbon\Carbon::parse($complaint->date)->format('Y-m-d') ?? '-' }}</td>
                             <td>
     {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
 </td>

@@ -28,8 +28,8 @@ class ComplaintStoreRequest extends FormRequest
             'lecture_id' => ['nullable', 'exists:lectures,id'],
             'semester_id' => ['nullable', 'exists:semesters,id'],
             'academic_year_id' => ['nullable', 'exists:academic_years,id'],
-            'description' => ['required', 'max:255', 'string'],
-            'solution' => ['required', 'max:255', 'string'],
+            'description' => ['required', 'max:65530', 'string'],
+            'solution' => ['required', 'max:65530', 'string'],
             'date' => ['required', 'date'],
         ];
     }

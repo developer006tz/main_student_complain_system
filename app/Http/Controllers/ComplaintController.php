@@ -119,7 +119,7 @@ class ComplaintController extends Controller
         $this->authorize('update', $complaint);
 
         $complainTypes = ComplainType::pluck('name', 'id');
-        $students = Student::pluck('date_of_birth', 'id');
+        $students = Student::join('users', 'users.id', '=', 'students.user_id')->pluck('users.name', 'students.id');
         $departments = Department::pluck('name', 'id');
         $programs = Program::pluck('name', 'id');
         $courses = Course::pluck('name', 'id');
