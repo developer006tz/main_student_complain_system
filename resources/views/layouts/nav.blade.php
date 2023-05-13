@@ -149,14 +149,49 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li>
+        <li class="nav-item dropdown user-menu">
+            @php
+            $role = Auth::user()->getRoleNames()[0];
+            if($role == 'student'){
+                $photo = Auth::user()->student()->first()->photo;
+                $student_id = Auth::user()->student()->first()->id;
+            }elseif($role == 'teacher'){
+                $photo = Auth::user()->teacher()->first()->photo;
+            }else{
+                $photo = "profile.png";
+            }
+            @endphp
+
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <img src="{{asset("uploads/student/$photo ?? 'default.png'")}}" class="user-image img-circle elevation-2" alt="User Image">
+          <span class="d-none d-md-inline">{{Auth::user()->name}}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+          <!-- User image -->
+          <li class="user-header bg-primary">
+            <img src="{{asset("uploads/student/$photo")}}" class="img-circle elevation-2" alt="User Image">
+
+            <p>
+              {{Auth::user()->name}} - {{$role}}
+              <small>Member since: {{Auth::user()->created_at}}</small>
+            </p>
+          </li>
+          <!-- Menu Body -->
+          <!-- Menu Footer-->
+          <li class="user-footer">
+            @if($role != 'super-admin')
+            <a href="{{url("students/$student_id")}}" class="btn btn-default btn-flat">Profile</a>
+            @endif
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-up-left').submit();" class="btn btn-default text-danger btn-outline-danger btn-flat float-right">Sign out</a>
+            <form id="logout-form-up-left" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+          </li>
+        </ul>
+      </li>
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="icon ion-ios-expand"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="icon ion-md-expand"></i>
             </a>
         </li>
     </ul>
