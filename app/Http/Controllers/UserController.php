@@ -85,7 +85,7 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        $excludedRoles = ['super-admin', 'department-master', 'gender-desk','user'];
+        $excludedRoles = ['super-admin', 'department-head', 'gender-desk','user'];
 
         if (auth()->user()->hasRole('super-admin')) {
             $roles = Role::get();

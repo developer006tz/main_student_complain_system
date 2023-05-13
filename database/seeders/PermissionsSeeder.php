@@ -99,10 +99,74 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'update students']);
         Permission::create(['name' => 'delete students']);
 
+        //create student exclusive permissions assign them in array
+        $studentPermissions = [
+            'list complaints',
+            'view complaints',
+            'create complaints',
+            'update complaints',
+            'delete complaints',
+            'list messages',
+            'view messages',
+            'create messages',
+            'update messages',
+            'delete messages',
+            'view students',
+            'create students',
+            'update students',
+            'update roles',
+        ];
+
+        $userPermissions = [
+            'create lectures',
+            'update lectures',
+            'delete complaints',
+            'list messages',
+            'view messages',
+            'create messages',
+            'update messages',
+            'view students',
+            'create students',
+            'update students',
+            'update roles',
+            'update permissions',
+            'create users',
+            'update users',
+        ];
+
+        $lecturerRole = [
+            'list complaints',
+            'view complaints',
+            'list messages',
+            'view messages',
+            'create messages',
+            'update messages',
+            'delete messages',
+            'view lectures',
+            'create lectures',
+            'update lectures',
+            'update roles',
+            'update permissions',
+        ];
+
+        
         // Create user role and assign existing permissions
         $currentPermissions = Permission::all();
         $userRole = Role::create(['name' => 'user']);
-        $userRole->givePermissionTo($currentPermissions);
+        $userRole->givePermissionTo($userPermissions);
+        //create studentRole, assign existing permissions
+        $studentRole = Role::create(['name' => 'student']);
+        $studentRole->givePermissionTo($studentPermissions);
+        //create lecturerRole, assign existing permissions
+        $lecturerRole = Role::create(['name' => 'lecturer']);
+        $lecturerRole->givePermissionTo($lecturerRole);
+        //create genderdeskRole, assign existing permissions
+        $genderdeskRole = Role::create(['name' => 'gender-desk']);
+        $genderdeskRole->givePermissionTo($currentPermissions);
+        //create departmentheadRole, assign existing permissions
+        $departmentheadRole = Role::create(['name' => 'department-head']);
+        $departmentheadRole->givePermissionTo($currentPermissions);
+        
 
         // Create admin exclusive permissions
         Permission::create(['name' => 'list roles']);
