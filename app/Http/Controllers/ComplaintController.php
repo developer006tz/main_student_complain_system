@@ -161,6 +161,23 @@ class ComplaintController extends Controller
             ->withSuccess(__('crud.common.saved'));
     }
 
+    public function update_status(
+        Request $request,
+        Complaint $complaint
+    ): RedirectResponse {
+        $this->authorize('update', $complaint);
+
+        $validated = $request->validate([
+            'status' => 'required',
+        ]);
+
+        $complaint->update($validated);
+
+        return redirect()
+            ->route('complaints.show', $complaint)
+            ->withSuccess(__('crud.common.saved'));
+    }
+
     /**
      * Remove the specified resource from storage.
      */

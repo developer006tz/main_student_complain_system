@@ -125,10 +125,12 @@
                     <td>
     {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
 </td>
-                  </tr>
-                  <td>
-                    <a href="#">see</a>
+<td>
+                    <a href="{{ route('complaints.show', $complaint) }}">view</a>
                   </td>
+                  
+</tr>
+                  
                    @empty
                         <tr>
                             <td colspan="6" class="text-center">

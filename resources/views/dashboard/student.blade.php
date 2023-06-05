@@ -57,13 +57,13 @@
                                 <i class="fa-sharp fa fa-folder-open"></i>
                             </div>
                             
-                            <a href="#" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('complaints.index') }}" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{$complaints->where('status','1')->count()}}</h3>
+                                <h3>{{$complaints->where('status','4')->count()}}</h3>
 
                                 <p>Resolved</p>
                             </div>
@@ -114,8 +114,8 @@
                     <td>{!! Str::limit(strip_tags($complaint->description),100) ?? '-' !!}</td>
                     <td>{!! Str::limit(strip_tags($complaint->solution),100) ?? '-' !!}</td>
                     <td>{{ \Carbon\Carbon::parse($complaint->date)->format('d/m/Y') ?? '-' }}</td>
-                    <td>
-    {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
+                    <td style="width: 134px;">
+    {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-secondary">in review</button>' : ($complaint->status ?? '-')) !!}
 </td>
                   </tr>
                    @empty

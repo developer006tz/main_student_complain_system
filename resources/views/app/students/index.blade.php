@@ -84,7 +84,7 @@
                                     src="{{ $student->photo ? asset('uploads/student/'.$student->photo) : '' }}"
                                 />
                             </td>
-                            <td>{{ $student->status ?? '-' }}</td>
+                            <td>   {!! $student->status == '0' ? '<button class="btn btn-warning">inactive</button>' : ($student->status == '1' ? '<button class="btn btn-info">Active</button>' : ($student->status ?? '-')) !!}</td>
                             <td class="text-center" style="width: 134px;">
                                 <div
                                     role="group"

@@ -60,4 +60,6 @@ Route::prefix('/')
         Route::resource('countries', CountryController::class);
         Route::resource('users', UserController::class);
         Route::resource('messages', MessageController::class);
+        //inline route to update complaints
+        Route::patch('complaints/{complaint}/update', [ComplaintController::class, 'update_status'])->name('complaint_status.update');
     });

@@ -19,14 +19,40 @@
                     <tr>
                         <th scope="col">Date Submitted</th>
                         <th scope="col">Status</th>
+                         @can('update', $complaint)
+                  @if(Auth::user()->hasAnyRole(['super-admin', 'lecturer', 'gender-desk']))
+                        <th scope="col">Accept complaint</th>
+                    @endif
+                    @endcan
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                         <td>{{\Carbon\Carbon::parse($complaint->date)->format('Y-m-d') ?? '-' }}</td>
                         <td>
-                        {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
+                            @if(Auth::user()->hasRole('student'))
+                            {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-primary">received</button>' : ($complaint->status ?? '-')) !!}
+                            @else
+
+                        {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-info">in review</button>' : ($complaint->status ?? '-')) !!}
+                            @endif
                         </td>
+                         @can('update', $complaint)
+                  @if(Auth::user()->hasAnyRole(['super-admin', 'lecturer', 'gender-desk']))
+                        <td>
+                            @if($complaint->status == '0')
+                            <form method="POST" action="{{ route('complaint_status.update', $complaint) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                {{ method_field('PATCH') }}
+                                <input type="hidden" name="status" value="1">
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+                            @else
+                            <button class="btn btn-success" disabled>Already Accepted</button>
+                            @endif
+                        </td>
+                    @endif
+                    @endcan
                     </tr>
                     
                   </tbody>
@@ -52,7 +78,7 @@
                         <td>{{ optional($complaint->department)->name ?? '-' }}</td>
                         <td>{{ optional($complaint->program)->name ?? '-' }}</td>
                         <td>{{ optional($complaint->course)->name ?? '-' }}</td>
-                        <td>{{ optional($complaint->lecture)->image ?? '-' }}</td>
+                        <td>{{ optional($complaint->lecture)->user->name ?? '-' }}</td>
                         <td>{{ optional($complaint->semester)->name ?? '-' }}</td>
                         <td>{{ optional($complaint->academicYear)->name ?? '-' }}</td>
                     </tr>
@@ -86,12 +112,15 @@
             </div>
 
             <div class="mt-4">
-                <a href="{{ route('complaints.index') }}" class="btn btn-outline-primary">
-                    <i class="icon ion-md-return-left"></i>
-                    @lang('crud.common.back')
-                </a>
-
-                @can('create', App\Models\Complaint::class)
+                <div class="button-wrapper d-flex justify-content-between">
+                    <div class="button left">
+                    <a href="{{ route('complaints.index') }}" class="btn btn-outline-primary">
+                                        <i class="icon ion-md-return-left"></i>
+                                        @lang('crud.common.back')
+                                    </a>
+                    </div>
+                    <div class="button right">
+                        @can('create', App\Models\Complaint::class)
                 <a
                     href="{{ route('complaints.create') }}"
                     class="btn btn-outline-primary"
@@ -99,6 +128,33 @@
                     <i class="icon ion-md-add"></i> @lang('crud.common.create')
                 </a>
                 @endcan
+
+                @can('update', $complaint)
+                  @if(Auth::user()->hasAnyRole(['super-admin', 'lecturer', 'gender-desk']))
+                <a
+                    href="{{ route('complaints.edit', $complaint) }}"
+                    class="btn btn-success" 
+                >
+
+
+                    <i class="icon ion-md-create"></i> resolve
+                </a>
+                <a
+                    href="{{ route('complaints.edit', $complaint) }}"
+                    class="btn btn-danger" 
+                >
+
+
+                    <i class="icon ion-md-create"></i>reject
+                </a>
+                @endif
+                @endcan
+
+                    </div>
+                </div>
+                
+
+                
             </div>
         </div>
     </div>
