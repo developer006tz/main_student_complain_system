@@ -118,6 +118,10 @@
                                     class="btn-group"
                                 >
                                     @can('update', $complaint)
+                                    {{-- //check if the user is student or and if compaint status is 0 to enable edit else to disable button  --}}
+                                    @if(Auth::user()->hasRole('student'))
+                                    {!! $complaint->status == '0' ? '<a href="'.route('complaints.edit', $complaint).'" ><button type="button" class="btn btn-outline-primary btn-sm"><i class="icon fas fa-edit"></i></button></a>' : '<button type="button" class="btn btn-outline-primary btn-sm" disabled><i class="icon fas fa-edit"></i></button>' !!}
+                                    @else
                                     <a
                                         href="{{ route('complaints.edit', $complaint) }}"
                                     >
@@ -128,6 +132,7 @@
                                             <i class="icon fas fa-edit"></i>
                                         </button>
                                     </a>
+                                    @endif
                                     @endcan @can('view', $complaint)
                                     <a
                                         href="{{ route('complaints.show', $complaint) }}"
@@ -140,6 +145,10 @@
                                         </button>
                                     </a>
                                     @endcan @can('delete', $complaint)
+                                    {{-- //check if the user is student or and if compaint status is 0 to enable delete else to disable button --}}
+
+                                    @if(Auth::user()->hasRole('student'))
+                                    @if($complaint->status == '0')
                                     <form
                                         action="{{ route('complaints.destroy', $complaint) }}"
                                         method="POST"
@@ -153,6 +162,32 @@
                                             <i class="icon fa fa-trash"></i>
                                         </button>
                                     </form>
+                                    @else
+                                    <button
+                                        type="button"
+                                        class="btn btn-block btn-outline-danger btn-sm"
+                                        disabled
+                                    > <i class="icon fa fa-trash"></i>
+                                    </button>
+                                    @endif
+
+                                    @else
+
+
+                                    <form
+                                        action="{{ route('complaints.destroy', $complaint) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('{{ __('crud.common.are_you_sure') }}')"
+                                    >
+                                        @csrf @method('DELETE')
+                                        <button
+                                            type="submit"
+                                            class="btn btn-block btn-outline-danger btn-sm"
+                                        >
+                                            <i class="icon fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    @endif
                                     @endcan
                                 </div>
                             </td>
