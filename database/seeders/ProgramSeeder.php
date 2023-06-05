@@ -13,7 +13,7 @@ class ProgramSeeder extends Seeder
     public function run(): void
     {
         Program::factory()
-            ->count(1)
+            ->count(0)
             ->create();
     }
 }

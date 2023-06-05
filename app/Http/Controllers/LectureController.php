@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\LectureStoreRequest;
 use App\Http\Requests\LectureUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 
 class LectureController extends Controller
 {
@@ -36,12 +37,14 @@ class LectureController extends Controller
      */
     public function create(Request $request): View
     {
-        $this->authorize('create', Lecture::class);
+       $this->authorize('create', Lecture::class);
+            $users = User::pluck('name', 'id');
+            $departments = Department::pluck('name', 'id');
 
-        $users = User::pluck('name', 'id');
-        $departments = Department::pluck('name', 'id');
+            return view('app.lectures.create', compact('users', 'departments'));
+       
 
-        return view('app.lectures.create', compact('users', 'departments'));
+        
     }
 
     /**
@@ -53,14 +56,32 @@ class LectureController extends Controller
 
         $validated = $request->validated();
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('public');
+            $file = $request->file('image');
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = time() . rand(4, 999) . '.' . $extension;
+
+            $file->move('uploads/lecturer/', $filename);
+        } else {
+            $filename = 'default.png';
         }
+        $image = ['image' => $filename];
 
-        $lecture = Lecture::create($validated);
+        $lecture = Lecture::create(array_merge($validated, $image));
 
-        return redirect()
-            ->route('lectures.index', $lecture)
+        if (auth()->user()->hasRole('super-admin')) {
+            return redirect()
+            ->route('lectures.show', $lecture)
             ->withSuccess(__('crud.common.created'));
+        } else {
+            return redirect()
+            ->route('home')
+            ->withSuccess(__('crud.common.created'));
+        }
     }
 
     /**

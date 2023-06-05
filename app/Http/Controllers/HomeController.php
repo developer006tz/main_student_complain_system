@@ -37,7 +37,17 @@ class HomeController extends Controller
         if ($role == 'student' && $student) {
             $complaints = Complaint::where('student_id', $user->student->id)->get();
             return view('home', compact('user', 'role', 'student', 'complaints'));
-        }else{
+        }elseif($user->hasRole('lecturer')){
+            if(!empty($user->lecture)){
+                $complaints = $user->lecture->complaints;
+            }else{
+                $complaints = array();
+            }
+            
+            return view('home', compact('user','complaints','role'));
+
+        }
+        else{
             return view('home', compact('user', 'role','student'));
         }
         

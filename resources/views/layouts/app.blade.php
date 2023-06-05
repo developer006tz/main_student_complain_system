@@ -60,6 +60,10 @@
     </head>
 
     <body class="sidebar-mini layout-fixed layout-navbar-fixed ">
+        @php
+        $user = Auth::user();
+        $role = $user->roles->pluck('name')->first();
+        @endphp
         <div id="app" class="wrapper">
             <div class="main-header">
                 @include('layouts.nav')

@@ -2,6 +2,9 @@
 
 <div class="row">
     <x-inputs.group class="col-sm-12">
+        @if(Auth::user()->hasRole('lecturer'))
+        <x-inputs.hidden name="user_id" :value="Auth::user()->id"></x-inputs.hidden>
+        @else
         <x-inputs.select name="user_id" label="User" required>
             @php $selected = old('user_id', ($editing ? $lecture->user_id : '')) @endphp
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the User</option>
@@ -9,10 +12,11 @@
             <option value="{{ $value }}" {{ $selected == $value ? 'selected' : '' }} >{{ $label }}</option>
             @endforeach
         </x-inputs.select>
+        @endif
     </x-inputs.group>
 
     <x-inputs.group class="col-sm-12">
-        <x-inputs.select name="department_id" label="Department" required>
+        <x-inputs.select name="department_id" class="select2" label="Department" required>
             @php $selected = old('department_id', ($editing ? $lecture->department_id : '')) @endphp
             <option disabled {{ empty($selected) ? 'selected' : '' }}>Please select the Department</option>
             @foreach($departments as $value => $label)
@@ -61,12 +65,16 @@
             @enderror
         </div>
     </x-inputs.group>
-
-    <x-inputs.group class="col-sm-12">
+@if(Auth::user()->hasRole('super-admin'))
+<x-inputs.group class="col-sm-12">
         <x-inputs.select name="status" label="Status">
             @php $selected = old('status', ($editing ? $lecture->status : '1')) @endphp
             <option value="1" {{ $selected == '1' ? 'selected' : '' }} >1</option>
             <option value="0" {{ $selected == '0' ? 'selected' : '' }} >0</option>
         </x-inputs.select>
     </x-inputs.group>
+        
+        @else
+    <x-inputs.hidden name="status" :value="1"></x-inputs.hidden>
+    @endif
 </div>

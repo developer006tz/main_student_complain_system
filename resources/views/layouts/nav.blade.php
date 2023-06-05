@@ -129,10 +129,10 @@ $user = Auth::user();
                     $photo = $student->photo ?? $photo;
                     $student_id = $student->id;
                 }
-            }elseif($role == 'teacher'){
-                $teacher = Auth::user()->teacher()->first();
-                if($teacher){
-                    $photo = $teacher->photo ?? $photo;
+            }elseif($role == 'lecturer'){
+                $lecturer = Auth::user()->lecture()->first();
+                if($lecturer){
+                    $photo = $lecturer->image ?? $photo;
                 }
             }
 
@@ -140,13 +140,13 @@ $user = Auth::user();
             @endphp
 
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <img src="{{asset("uploads/student/$photo")}}" class="user-image img-circle elevation-2" alt="User Image">
+          <img src="{{asset("uploads/$role/$photo")}}" class="user-image img-circle elevation-2" alt="User Image">
           <span class="d-none d-md-inline">{{$user->name}}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
           <!-- User image -->
           <li class="user-header bg-primary">
-            <img src="{{asset("uploads/student/$photo")}}" class="img-circle elevation-2" alt="User Image">
+            <img src="{{asset("uploads/$role/$photo")}}" class="img-circle elevation-2" alt="User Image">
 
             <p>
               {{$user->name}} - {{$role}}

@@ -64,7 +64,8 @@
                                             <i class="icon fas fa-edit"></i>
                                         </button>
                                     </a>
-                                    @endcan @can('view', $academicYear)
+                                    @endcan
+                                        @can('view', $academicYear)
                                     <a
                                         href="{{ route('academic-years.show', $academicYear) }}"
                                     >
