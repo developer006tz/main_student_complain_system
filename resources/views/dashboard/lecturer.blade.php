@@ -11,7 +11,7 @@
                                     <ul id="progressbar">
                                         <li class="active" id="account"><strong>Register</strong></li>
                                         <li class="active" id="personal"><strong>Choose Role</strong></li>
-                                        <li id="payment"><strong>Fill {{Auth::user()->getRoleNames()[0];}} Info's</strong></li>
+                                        <li id="payment"><strong>Fill {{Auth::user()->getRoleNames()[0]}} Info's</strong></li>
                                         <li id="confirm"><strong>Finish</strong></li>
                                     </ul>
                                     <br>

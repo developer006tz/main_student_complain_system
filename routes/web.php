@@ -19,6 +19,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ComplainTypeController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\DepartmentHeadController;
+use App\Mail\MailableScs;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,13 @@ use App\Http\Controllers\DepartmentHeadController;
 
 Route::get('/', function () {
     return view('auth.login');
+});
+
+Route::get('/testroute', function () {
+    $name = "Funny Coder";
+
+    // The email sending is done using the to method on the Mail facade
+    Mail::to('developer.ludovic@gmail.com’')->send(new MailableScs($name));
 });
 
 Auth::routes();

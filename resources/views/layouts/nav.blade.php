@@ -118,8 +118,9 @@ $user = Auth::user();
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
-        </li>
+        </li>@auth
         <li class="nav-item dropdown user-menu">
+            @auth
             @php
             $role = Auth::user()->getRoleNames()[0];
             $photo = "profile.png";
@@ -138,19 +139,21 @@ $user = Auth::user();
 
 
             @endphp
+            @endauth
 
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <img src="{{asset("uploads/$role/$photo")}}" class="user-image img-circle elevation-2" alt="User Image">
-          <span class="d-none d-md-inline">{{$user->name}}</span>
+          <img src="@auth{{asset("uploads/$role/$photo")}} @endauth {{asset("uploads/student/default.png")}}" class="user-image img-circle elevation-2" alt="User Image">
+          <span class="d-none d-md-inline">{{$user ? $user->name: ''}}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
           <!-- User image -->
           <li class="user-header bg-primary">
-            <img src="{{asset("uploads/$role/$photo")}}" class="img-circle elevation-2" alt="User Image">
+            <img src="@auth{{asset("uploads/$role/$photo")}} @endauth {{asset("uploads/student/default.png")}}" class="img-circle elevation-2" alt="User Image">
 
-            <p>
-              {{$user->name}} - {{$role}}
+            <p>@auth
+              {{$user->name}} - {{$role ?? '-'}}
               <small>Member since: {{$user->created_at}}</small>
+              @endauth
             </p>
           </li>
           <!-- Menu Body -->
@@ -172,6 +175,7 @@ $user = Auth::user();
           </li>
         </ul>
       </li>
+      @endauth
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="icon ion-ios-expand"></i>

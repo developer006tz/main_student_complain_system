@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Message;
 use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\MailableScs;
+use App\Mail\ContactMail;
 
-class RegisterController extends Controller
+class RegisterController extends NotificationController
 {
     /*
     |--------------------------------------------------------------------------
@@ -55,6 +58,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'min:8','unique:users'],
+            'role' => ['required', 'integer'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -77,7 +81,31 @@ class RegisterController extends Controller
         // $roles = Role::where('name', 'user')->first()->id;
         // $role = array($roles);
         // $user->assignRole($role);
-        $user->assignRole(Role::findByName('user'));
+        $role = $data['role'];
+        if($role==1){
+            $role = 'Student';
+            $user->assignRole(Role::findByName('student'));
+        }elseif($role==2){
+            $role = 'Lecturer';
+            $user->assignRole(Role::findByName('lecturer'));
+        }else{
+            $role = 'User';
+            $user->assignRole(Role::findByName('user'));
+        }
+
+        //send phone message and email to user 
+
+        $message = new Message();
+        $message->body = "Hellow $user->name, You are registered as $role in NIT Student Complaint System. Please Fill remained information to complete your profile.";
+        $message->user_id = $user->id;
+        $message->phone = $user->phone;
+        $message->type = 1;
+        $message->send_status = 0;
+        $message->save();
+
+        beem_sms(validatePhoneNumber($user->phone), $message->body);
+        sendEmail($user->email,$user->naame,'COMPLETE YOUR PROFILE', $message->body);
+        
         return $user;
     }
 }

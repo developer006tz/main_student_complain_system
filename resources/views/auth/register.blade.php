@@ -66,6 +66,20 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label>Role <span class="login-danger">*</span></label>
+                                <select name="role" class="form-control @error('role') is-invalid @enderror" id="role">
+                                    <option value="">__select role__</option>
+                                    <option value="1">Student</option>
+                                    <option value="2">Lecture</option>
+                                </select>
+                                <span class="profile-views"><i class="fas fa-user"></i></span>
+                                @error('role')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label>{{ __('Password') }} <span class="login-danger">*</span></label>
                                 <input id="password" type="password" class="form-control pass-input @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                                 <span class="profile-views feather-eye toggle-password"></span>
