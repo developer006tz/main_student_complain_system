@@ -52,11 +52,11 @@
         @endif
 
 
-        <script type="module">
+        {{-- <script type="module">
             import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
-        </script>
+        </script> --}}
 
-        @livewireStyles
+        {{-- @livewireStyles --}}
     </head>
 
     <body class="sidebar-mini layout-fixed layout-navbar-fixed ">
@@ -111,9 +111,9 @@
 
         <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
 
-        @livewireScripts
+        {{-- @livewireScripts --}}
 
-        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script> --}}
 
         @stack('scripts')
         <script>

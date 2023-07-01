@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Mail\Mailables\Address;
 
 
-
-
 class MailableScs extends Mailable
 {
     use Queueable, SerializesModels;
@@ -39,7 +37,8 @@ class MailableScs extends Mailable
     {
         return new Envelope(
             from: new Address('developer@ludovickonyo.com', 'NATIONAL ISTITUTE OF TRANSPORT'),
-            subject: 'SAMPLE EMAIL',
+            to: [new Address($this->data['to'], $this->data['name'])],
+            subject: $this->data['subject'],
         );
     }
 
@@ -51,12 +50,11 @@ class MailableScs extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.complete-profile',
+            view: 'mail.template',
             with: [
-                'name' => $this->name,
+                'name' => $this->data['name'],
+                'test_message' => $this->data['message'],
             ],
-
-
         );
     }
 
@@ -67,6 +65,9 @@ class MailableScs extends Mailable
      */
     public function attachments()
     {
-        return [];
+        return [
+            //
+
+        ];
     }
 }

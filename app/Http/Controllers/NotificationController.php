@@ -5,31 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mail\MessageReceived;
-use App\Models\Messages;
+use App\Models\Message;
 use Illuminate\Support\Facades\Mail;
 
 class NotificationController extends Controller
 {
     //
-    public function submit(Request $request)
+    public function save_message($body,?int $user_id, ?int $sender_id, ?string $phone, $type=1, $send_status=0)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'message' => 'required'
-        ]);
-
-        $message = new Messages;
-        $message->name = $request->name;
-        $message->email = $request->email;
-        $message->message = $request->message;
+        $message = new Message();
+        $message->body = $body;
+        $message->user_id = $user_id;
+        $message->sender_id = $sender_id;
+        $message->phone = $phone;
+        $message->type = $type;
+        $message->send_status = $send_status;
         $message->save();
 
-        Mail::to('developer@ludovickonyo.com')->send(new MessageReceived($message));
-
-
-        return back()->with('successMessage', 'Your message has been sent successfully!');
+        return $message;
+        
     }
+ 
+    
 
     public function sendSms($phone, $sms){
         

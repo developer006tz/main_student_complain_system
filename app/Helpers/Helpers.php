@@ -317,6 +317,6 @@ if (! function_exists('sendEmail')) {
             'message' => $message
         );
 
-        Mail::to($to)->send(new ContactMail($data));
+        Mail::send(new MailableScs($data));
 }
 }

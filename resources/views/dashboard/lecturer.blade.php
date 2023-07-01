@@ -3,7 +3,7 @@
                     <div class="row justify-content-center">
                         <div class="col-11 text-center p-0 mt-3 mb-2">
                             <div class="card px-0 pt-4 pb-0 mt-3 mb-3 text-success">
-                                <h2 id="heading">Welcome Lecturer {{Auth::user()->name}}</h2>
+                                <h2 id="heading">Welcome {{Auth::user()->getRoleNames()[0]}} {{Auth::user()->name}}</h2>
                                 <p>Congratulation's, You are 1 step  to Finish your Registration</p>
 
                                 <form id="msform">
@@ -52,7 +52,7 @@
                     <div class="col-lg-4 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{$complaints->where('status','1')->count()}}</h3>
+                                <h3>{{$complaints->where('status','2')->count()}}</h3>
 
                                 <p>Resolved</p>
                             </div>
@@ -65,7 +65,7 @@
                     <div class="col-lg-4 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>{{$complaints->where('status','2')->count()}}</h3>
+                                <h3>{{$complaints->where('status','3')->count()}}</h3>
                                 <p>Transfered</p>
                             </div>
                             <div class="icon">
@@ -123,7 +123,7 @@
                     <td>{!! Str::limit(strip_tags($complaint->solution),100) ?? '-' !!}</td>
                     <td>{{ \Carbon\Carbon::parse($complaint->date)->format('d/m/Y') ?? '-' }}</td>
                     <td>
-    {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
+    {!! $complaint->status == '0' ? '<span class="badge badge-warning">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-info">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' : '<span class="badge badge-secondary">transfered</span>')) !!}
 </td>
 <td>
                     <a href="{{ route('complaints.show', $complaint) }}">view</a>

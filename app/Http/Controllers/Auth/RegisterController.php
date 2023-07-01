@@ -82,6 +82,7 @@ class RegisterController extends NotificationController
         // $role = array($roles);
         // $user->assignRole($role);
         $role = $data['role'];
+      
         if($role==1){
             $role = 'Student';
             $user->assignRole(Role::findByName('student'));
@@ -93,19 +94,15 @@ class RegisterController extends NotificationController
             $user->assignRole(Role::findByName('user'));
         }
 
-        //send phone message and email to user 
+        $sms = "Hellow $user->name, You are registered as $role in NIT Student Complaint System. Please Fill remained information to complete your profile.";
+        try {
+            $message = $this->save_message($sms, $user->id, null, $user->phone, 1, 0);
+            beem_sms(validatePhoneNumber($message->phone), $message->body);
+            sendEmail($user->email,$user->name,'COMPLETE YOUR PROFILE', $message->body);
 
-        $message = new Message();
-        $message->body = "Hellow $user->name, You are registered as $role in NIT Student Complaint System. Please Fill remained information to complete your profile.";
-        $message->user_id = $user->id;
-        $message->phone = $user->phone;
-        $message->type = 1;
-        $message->send_status = 0;
-        $message->save();
-
-        beem_sms(validatePhoneNumber($user->phone), $message->body);
-        sendEmail($user->email,$user->naame,'COMPLETE YOUR PROFILE', $message->body);
-        
+        } catch (\Throwable $th) {
+            $th->getMessage();
+        }
         return $user;
     }
 }

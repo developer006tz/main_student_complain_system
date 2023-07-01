@@ -24,7 +24,7 @@ class ContactMail extends Mailable
         $subject = $this->data['subject'];
         $to = $this->data['to'];
 
-        return $this->view('mail.test')
+        return $this->view('mail.template')
             ->from($address,'NIT STUDENT COMPLAINT SYSTEM')
             ->to($to)
             ->subject($subject)
