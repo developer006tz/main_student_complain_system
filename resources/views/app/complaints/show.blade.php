@@ -17,25 +17,15 @@
                <table class="table table-borderless table-sm mt-3">
                   <thead>
                     <tr>
-                        <th scope="col">Date Requested</th>
-                        <th scope="col">Resolve Status</th>
-                         @can('update', $complaint)
-                  @if(Auth::user()->hasAnyRole(['super-admin', 'lecturer', 'gender-desk']))
-                        <th scope="col">..</th>
-                    @endif
-                    @endcan
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                        <td>{{\Carbon\Carbon::parse($complaint->date)->format('Y-m-d') ?? '-' }}</td>
+                        <td>Date Requested: <span class="badge badge-info"> {{\Carbon\Carbon::parse($complaint->date)->format('m/d/Y') ?? '-' }}</span></td>
                         <td>
-                            @if(Auth::user()->hasRole('student'))
-                            {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-primary">received</button>' : ($complaint->status ?? '-')) !!}
-                            @else
-
-    {!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' : '<span class="badge badge-secondary">transfered</span>')) !!}
-                            @endif
+                            Resolve status:  
+                        {!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' : '<span class="badge badge-secondary">transfered</span>')) !!}
+                            
                         </td>
                          @can('update', $complaint)
                   @if(Auth::user()->hasAnyRole(['super-admin', 'lecturer', 'gender-desk']))
@@ -187,7 +177,7 @@
                 </div>
                 <div class="col-5">
                     @if($complaint->status == 1 && $complaint->status != 3)
-                    <form action="{{ route('complaint_status.update', $complaint) }}" class="no_print" method="POST">
+                    <form action="{{ route('complaint_status.resolve', $complaint) }}" class="no_print" method="POST">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="complaint_id" value="{{$complaint->id}}" >
@@ -197,7 +187,7 @@
                     <div class="col-sm-6">
                        <div class="form-group">
                     <label>Resolve</label>
-                        <select name="status" class="form-control" style="width: 100%;">
+                        <select name="resolve_status" class="form-control" style="width: 100%;">
                             <option value="2">Resolve</option>
                             <option value="3">Transfer</option>
                             <option value="4">Reject</option>
@@ -209,7 +199,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Remark</label>
-                        <textarea name="comment" class="form-control" rows="3" placeholder="Enter Remark">
+                        <textarea name="remark" class="form-control" rows="3" placeholder="Enter Remark">
                            
                         </textarea>
                       </div>

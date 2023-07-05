@@ -3,16 +3,17 @@
     @php
     $complaints = App\Models\Complaint::count ();
     $users = App\Models\User::count ();
-    $resolved = App\Models\Complaint::where('status', '4')->count ();
-    $pending = App\Models\Complaint::where('status', '0')->count ();
-    $failed = App\Models\Complaint::where('status', '3')->count ();
+    $resolved = App\Models\Complaint::where('status', '2')->count ();
+    $new = App\Models\Complaint::where('status', '0')->count ();
+    $pending = App\Models\Complaint::where('status', '1')->count ();
+    $failed = App\Models\Complaint::where('status', '4')->count ();
     @endphp
     @endif
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3> {{$pending}} </h3>
+                                <h3> {{$new}} </h3>
 
                                 <p>New Complaints</p>
                             </div>
@@ -42,9 +43,9 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3> {{$users}}</h3>
+                                <h3> {{$pending}}</h3>
 
-                                <p>Users</p>
+                                <p>Pending Complaints</p>
                             </div>
                             <div class="icon">
                                 <i class="icon ion-md-people"></i>

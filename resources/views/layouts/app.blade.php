@@ -124,8 +124,14 @@
 
         @if (session()->has('success'))
         <script>
-            var notyf = new Notyf({dismissible: true})
+            var notyf = new Notyf({position: {x: 'right',y: 'top'}, duration: 3000, dismissible: true})
             notyf.success('{{ session('success') }}')
+        </script>
+        @endif
+        @if (session()->has('error'))
+        <script>
+            var notyf = new Notyf({position: {x: 'right',y: 'top'},duration: 5000, dismissible: false})
+            notyf.error('{{ session('error') }}')
         </script>
         @endif
         @auth

@@ -71,6 +71,7 @@ Route::prefix('/')
         Route::resource('messages', MessageController::class);
         //inline route to update complaints
         Route::patch('complaints/{complaint}/update', [ComplaintController::class, 'update_status'])->name('complaint_status.update');
+        Route::put('complaints/{complaint}/resolve', [ComplaintController::class, 'resolve_reject_or_transfer'])->name('complaint_status.resolve');
         //route sent_messages.show to show sent messages of auth user
         Route::get('sent_messages', [MessageController::class, 'sent_messages'])->name('sent_messages.show');
     });

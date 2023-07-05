@@ -8,6 +8,7 @@ use App\Models\Program;
 use App\Models\Lecture;
 use App\Models\Semester;
 use App\Models\Complaint;
+use App\Models\Resolve;
 use Illuminate\View\View;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use App\Models\AcademicYear;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\ComplaintStoreRequest;
 use App\Http\Requests\ComplaintUpdateRequest;
+
 
 class ComplaintController extends NotificationController
 {
@@ -244,6 +246,27 @@ class ComplaintController extends NotificationController
         return redirect()
             ->route('complaints.show', $complaint)
             ->withSuccess(__('crud.common.saved'));
+    }
+
+    public function resolve_reject_or_transfer( Request $request, Complaint $complaint ): RedirectResponse
+    {
+        //validate requests
+        $validated = $request->validate([
+            'complaint_id' => 'required',
+            'lecture_id' => 'required',
+            'user_id' => 'required',
+            'resolve_status' => 'required',
+            'remark' => 'nullable',
+        ]);
+        $complaint->update(['status' => $validated['resolve_status']]);
+
+        // insert into resolve table
+        Resolve::create(array_merge($validated, ['date' => now()]));
+
+        return to_route('complaints.show', $complaint)
+            ->withSuccess(__('crud.common.saved'));
+
+
     }
 
     /**
