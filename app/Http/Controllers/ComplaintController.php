@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\User;
 use App\Models\Student;
 use App\Models\Program;
 use App\Models\Lecture;
 use App\Models\Semester;
 use App\Models\Complaint;
 use App\Models\Resolve;
+use DB;
 use Illuminate\View\View;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -38,12 +40,30 @@ class ComplaintController extends NotificationController
                 ->withQueryString();
             return view('app.complaints.index', compact('complaints', 'search'));
         }else{
-            $complaints = Complaint::search($search)
-            ->latest()
-            ->paginate(500)
-            ->withQueryString();
-
-        return view('app.complaints.index', compact('complaints', 'search'));
+            if (auth()->user()->hasRole('department-head')) {
+                $complaints = Complaint::where('department_id', auth()->user()->lecture->department_id)->search($search)
+                    ->latest()
+                    ->paginate(500)
+                    ->withQueryString();
+                return view('app.complaints.index', compact('complaints', 'search'));
+            } elseif (auth()->user()->hasRole('lecturer')) {
+                $lecture = Lecture::where('user_id', auth()->user()->id)->first();
+                $complaints = Complaint::where('lecture_id', $lecture->id)->search($search)
+                    ->latest()
+                    ->paginate(500)
+                    ->withQueryString();
+                return view('app.complaints.index', compact('complaints', 'search'));
+                
+            }elseif(auth()->user()->hasRole('super-admin')){
+                $complaints = Complaint::search($search)
+                ->latest()
+                ->paginate(500)
+                ->withQueryString();
+                return view('app.complaints.index', compact('complaints', 'search'));
+            }else{
+                $complaints = [];
+                return view('app.complaints.index', compact('complaints', 'search'));
+            }
         }
 
         
@@ -152,7 +172,6 @@ class ComplaintController extends NotificationController
     public function show(Request $request, Complaint $complaint): View
     {
         $this->authorize('view', $complaint);
-
         return view('app.complaints.show', compact('complaint'));
     }
 
@@ -258,13 +277,64 @@ class ComplaintController extends NotificationController
             'resolve_status' => 'required',
             'remark' => 'nullable',
         ]);
-        $complaint->update(['status' => $validated['resolve_status']]);
 
-        // insert into resolve table
-        Resolve::create(array_merge($validated, ['date' => now()]));
+        //check if resolve status is transfer (3) then check a lecture with role department head in the department of the lecture who his lecture_id is in the complaint then if exists assign it to the complaint
+        if($validated['resolve_status'] == 3){
+            $complaint->update(['status' => $validated['resolve_status']]);
 
-        return to_route('complaints.show', $complaint)
-            ->withSuccess(__('crud.common.saved'));
+            $department_head = User::select('users.name as name', 'users.email', 'users.phone', 'departments.name as department', 'departments.id as dept_id', 'users.id as user_id','lectures.id as lecture_id')
+                ->whereHas('roles', function ($q) {
+                $q->where('name', 'department-head');
+                })
+                ->join('lectures', 'users.id', '=', 'lectures.user_id')
+                ->where('lectures.department_id', $complaint->lecture->department_id)
+                ->join('departments', 'departments.id', '=', 'lectures.department_id')
+                ->first();
+
+
+            if($department_head){
+                $validated['lecture_id'] = $department_head->lecture_id;
+                Resolve::create(array_merge($validated, ['date' => now()]));
+                //send email to  student and department head
+                $student_message = 'Dear '.$complaint->student->user->name.', your complaint has been transfered to department head of '.$department_head->department.' department  for futher check-up.';
+                $student_message_email = 'Your complaint has been transfered to department head of '.$department_head->department.' department for futher check-up.';
+
+                $department_head_message = 'Dear '.$department_head->name.', you have received a complaint claims from Lecturer '.$complaint->lecture->user->name.'. and now You can continue solving that complaint because it is beyond his/her level.';
+                $department_head_message_email = 'You have received a complaint claims from Lecturer ' . $complaint->lecture->user->name . '. and now You can continue solving that complaint because it is beyond his/her level.';
+
+                $save_student_sms = $this->save_message($student_message, $complaint->student->user->id,null, $complaint->student->user->phone, 1, 0);
+                $save_department_head_sms = $this->save_message($department_head_message, $department_head->user_id, null, $department_head->phone, 1, 0);
+
+                try {
+                    sendEmail($complaint->student->user->email, $complaint->student->user->name, 'COMPLAINT TRANSFERED', $student_message_email);
+                    beem_sms(validatePhoneNumber($complaint->student->user->phone), $save_student_sms->body);
+
+                    sendEmail($department_head->email, $department_head->name, 'COMPLAINT TRANSFERED', $department_head_message_email);
+                    beem_sms(validatePhoneNumber($department_head->phone), $save_department_head_sms->body);
+                   
+                    $save_department_head_sms->send_status = 1;
+                    $save_department_head_sms->save();
+
+                    $save_student_sms->send_status = 1;
+                    $save_student_sms->save();
+
+                } catch (\Throwable $th) {
+                    error_log($th->getMessage());
+                }
+
+                return to_route('complaints.show', $complaint)
+                    ->withSuccess(__('Complaint transfered successfully'));
+
+            }else{
+                return back()->withError('There is no department head in this department');
+            }
+        }else{
+            $complaint->update(['status' => $validated['resolve_status']]);
+            Resolve::create(array_merge($validated, ['date' => now()]));
+            return to_route('complaints.show', $complaint)
+                ->withSuccess(__('Complaint resolved successfully'));
+        }
+        
 
 
     }

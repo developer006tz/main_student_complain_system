@@ -43,6 +43,23 @@
 </div>
                     
                         <div class="row">
+                            @isset($total_department_complaints)
+                             <div class="col-lg-4 col-6">
+                        <div class="small-box bg-secondary">
+                            <div class="inner">
+                                <h3>{{$total_department_complaints->count() ?? '-'}}<sup style="font-size: 20px"></sup></h3>
+
+                                <p>Total Department Complaint</p>
+                            </div>
+                            
+                            <div class="icon">
+                                <i class="fa-sharp fa fa-folder-open"></i>
+                            </div>
+                            
+                            <a href="#" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    @endisset
                     <div class="col-lg-4 col-6">
                         <div class="small-box bg-secondary">
                             <div class="inner">

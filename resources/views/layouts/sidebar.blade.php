@@ -61,7 +61,7 @@
                         <a href="#" class="nav-link  {{ $complaint_routes ? 'active' : '' }}">
                             <i class="nav-icon icon ion-md-filing"></i>
                             <p>
-                                @if(Auth::user()->hasRole('super-admin'))
+                                @if(Auth::user()->hasAnyRole(['department-head','super-admin']))
                                     Manage Complaints
                                 @else
                                     My Complaints

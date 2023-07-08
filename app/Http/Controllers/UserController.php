@@ -139,6 +139,12 @@ class UserController extends Controller
                         ->withError(__('Department Head already Exists in "'. strtolower($user->lecture->department->name).'" Department !'));
                 } else {
                     $user->syncRoles($request->roles);
+                    //create deprtment head
+                    $department_head = [
+                        'user_id' => $user->id,
+                        'department_id' => $user->lecture->department_id,
+                    ];
+                    $user->departmentHead()->create($department_head);
                 }
             } else {
                 $user->syncRoles($request->roles);
