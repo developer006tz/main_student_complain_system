@@ -29,6 +29,6 @@ class Resolve extends Model
 
     public function complaint()
     {
-        return $this->belongsTo(Complaint::class);
+        return $this->belongsTo(Complaint::class)->latest();
     } 
 }

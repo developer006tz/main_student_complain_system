@@ -102,14 +102,12 @@
                             </td>
                             <td>{!! Str::limit(strip_tags($complaint->description),100) ?? '-' !!}</td>
                             <td>{!! Str::limit(strip_tags($complaint->solution),100) ?? '-' !!}</td>
-                            <td>{{ \Carbon\Carbon::parse($complaint->date)->format('Y-m-d') ?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($complaint->date)->format('d/m/Y') ?? '-' }}</td>
                             <td style="width: 134px;">
    @if(Auth::user()->hasRole('student'))
-                            {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-primary">received</button>' : ($complaint->status ?? '-')) !!}
-                            @else
+{!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' :($complaint->status == '4' ? '<span class="badge badge-danger">rejected</span>' : '<span class="badge badge-secondary">transfered</span>') )) !!}                            @else
 
-                        {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-info">on review</button>' : ($complaint->status ?? '-')) !!}
-                            @endif
+{!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' :($complaint->status == '4' ? '<span class="badge badge-danger">rejected</span>' : '<span class="badge badge-secondary">transfered</span>') )) !!}                            @endif
 
                             <td class="text-center" style="width: 134px;">
                                 <div

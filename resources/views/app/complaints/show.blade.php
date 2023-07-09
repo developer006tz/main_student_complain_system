@@ -24,7 +24,7 @@
                         <td>Date Requested: <span class="badge badge-info"> {{\Carbon\Carbon::parse($complaint->date)->format('m/d/Y') ?? '-' }}</span></td>
                         <td>
                             Resolve status:  
-                        {!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' : '<span class="badge badge-secondary">transfered</span>')) !!}
+                        {!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' :($complaint->status == '4' ? '<span class="badge badge-danger">rejected</span>' : '<span class="badge badge-secondary">transfered</span>') )) !!}
                             
                         </td>
                          @can('update', $complaint)
@@ -137,24 +137,16 @@
                         </tr>
                         <tr>
                             <td >COMPLAINT DESCRIPTION</td>
-                            <td><div class="mt-4">
-                                    <div class="card">
-                                        <div class="card-body" @style(['background:#106ed821'])>
+                            <td @style(['background:#4b4b4b21','border-bottom:2px solid white'])><div class="mt-4">
                                             {!! $complaint->description ?? '-' !!}
-                                        </div>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td >SUGGESTED SOLUTION</td>
-                            <td>
-                                <div class="mt-4">
-                                <div class="card">
-                                    <div class="card-body" @style(['background:#106ed821'])>
+                            <td @style(['background:#4b4b4b21'])>
+                                <div class="mt-4" >
                                         {!! $complaint->solution ?? '-' !!}
-                                    </div>
-                                </div>
                                 
                             </div>
                             </td>
@@ -170,13 +162,15 @@
                     <strong>Resolve Status: </strong>
                     @if($complaint->status == 2)
                     <span class="badge badge-success">resolved</span>
-                    @else
-                    <span class="badge badge-danger">not resolved</span>
+                    <span class="">Remark: <u class="badge badge-info">{{$complaint->resolves->first()->remark ?? '-'}}</u> </span>
+                    @elseif($complaint->status == 4)
+                    <span class="badge badge-danger">Rejected</span>
+                    <span class="">Reason: <u class="badge badge-info">{{$complaint->resolves->first()->remark ?? '-'}}</u> </span>
                     @endif
                   </p>
                 </div>
                 <div class="col-5">
-                    @if($complaint->status == 1 && $complaint->status != 3)
+                    @if(auth()->user()->hasRole('lecturer') && !auth()->user()->hasRole('department-head') && $complaint->status == 1 && $complaint->status != 3)
                     <form action="{{ route('complaint_status.resolve', $complaint) }}" class="no_print" method="POST">
                     @csrf
                     @method('PUT')
@@ -213,6 +207,8 @@
                 
                 </form>
                 @endif
+                @include('app.complaints.department-head-clear')
+
                 </div>
               </div>
               <div class="row no-print">

@@ -57,8 +57,9 @@ class HomeController extends Controller
                     }
 
                     $total_department_complaints = Complaint::where('department_id', $user->lecture->department->id)->get();
+                    $total_resolved_complaint = Complaint::where(['department_id'=> $user->lecture->department->id,'status'=>'2'])->get();
 
-                    return view('home', compact('user', 'role', 'student', 'complaints', 'total_department_complaints'));
+                    return view('home', compact('user', 'role', 'student', 'complaints', 'total_department_complaints','total_resolved_complaint'));
 
 
                 }

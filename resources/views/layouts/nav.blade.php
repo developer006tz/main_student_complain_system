@@ -35,90 +35,44 @@ $user = Auth::user();
         </li>
 
         <!-- Messages Dropdown Menu -->
+        @php 
+
+        $messages = App\Models\Message::where('user_id', auth()->user()->id)->latest()
+                ->paginate(2);
+                $total = App\Models\Message::where('user_id', auth()->user()->id)->count();
+
+        @endphp
+        
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="icon ion-ios-chatbubbles"></i>
-                <span class="badge badge-danger navbar-badge">3</span>
+                <span class="badge badge-danger navbar-badge">{{$total ?? '-'}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                @forelse($messages as $message)
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <img src="{{asset('logo.png')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
-                                Brad Diesel
+                               <strong>{{$message->user->name ?? '-'}}</strong>
                                 <span class="float-right text-sm text-danger"><i class="icon ion-ios-star"></i></span>
                             </h3>
-                            <p class="text-sm">Call me whenever you can...</p>
-                            <p class="text-sm text-muted"><i class="icon ion-md-clock"></i> 4 Hours Ago</p>
+                            <p class="text-sm"> {{$message->body}} </p>
+                            <p class="text-sm text-muted"><i class="icon ion-md-clock"></i>{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</p>
                         </div>
                     </div>
                     <!-- Message End -->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                John Pierce
-                                <span class="float-right text-sm text-muted"><i class="icon ion-ios-star"></i></span>
-                            </h3>
-                            <p class="text-sm">I got your message bro</p>
-                            <p class="text-sm text-muted"><i class="icon ion-md-clock"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                Nora Silvester
-                                <span class="float-right text-sm text-warning"><i class="icon ion-ios-star"></i></span>
-                            </h3>
-                            <p class="text-sm">The subject goes here</p>
-                            <p class="text-sm text-muted"><i class="icon ion-md-clock"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                @empty
+                <div class="empty">No messages yet</div>
+                @endforelse
+                <a href="{{ route('messages.index') }}" class="dropdown-item dropdown-footer">See All Messages</a>
             </div>
         </li>
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="icon ion-md-notifications"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="icon ion-md-mail-unread"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="icon ion-md-people"></i> 8 new complaints
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="icon ion-md-copy"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-            </div>
-        </li>@auth
+        <!-- Notifications Dropdown Menu -->@auth
         <li class="nav-item dropdown user-menu">
             @auth
             @php
@@ -142,13 +96,13 @@ $user = Auth::user();
             @endauth
 
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <img src="@auth{{asset("uploads/$role/$photo")}} @endauth {{asset("uploads/student/default.png")}}" class="user-image img-circle elevation-2" alt="User Image">
+          <img src="@auth{{asset("uploads/student/$photo")}} @else {{asset("uploads/student/default.png")}} @endauth" class="user-image img-circle elevation-2" alt="User Image">
           <span class="d-none d-md-inline">{{$user ? $user->name: ''}}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
           <!-- User image -->
           <li class="user-header bg-primary">
-            <img src="@auth{{asset("uploads/$role/$photo")}} @endauth {{asset("uploads/student/default.png")}}" class="img-circle elevation-2" alt="User Image">
+            <img src="@auth{{asset("uploads/student/$photo")}} @else {{asset("uploads/student/default.png")}} @endauth" class="img-circle elevation-2" alt="User Image">
 
             <p>@auth
               {{$user->name}} - {{$role ?? '-'}}

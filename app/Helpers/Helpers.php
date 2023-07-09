@@ -270,7 +270,8 @@ if (!function_exists('beem_sms')) {
     function beem_sms($phone, $message)
     {
 
-        $api_key='4448b31245845116';
+        // $api_key='4448b31245845116';
+        $api_key = '4448b31245845189';
         $secret_key = 'OWRkNWZhNWMxZjE3ZTg3YzQzNzcyN2Q4YTY2NDRiMDkwYjUwN2RmNmMyMzU2ZWUwNTk1N2VmOWE1NjNhZDQ5Ng==';
 
         $postData = array(

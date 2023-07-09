@@ -65,7 +65,7 @@ class LectureController extends Controller
 
             $filename = time() . rand(4, 999) . '.' . $extension;
 
-            $file->move('uploads/lecturer/', $filename);
+            $file->move('uploads/student/', $filename);
         } else {
             $filename = 'default.png';
         }

@@ -49,7 +49,24 @@
                             <div class="inner">
                                 <h3>{{$total_department_complaints->count() ?? '-'}}<sup style="font-size: 20px"></sup></h3>
 
-                                <p>Total Department Complaint</p>
+                                <p>All Department Complaint</p>
+                            </div>
+                            
+                            <div class="icon">
+                                <i class="fa-sharp fa fa-folder-open"></i>
+                            </div>
+                            
+                            <a href="#" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    @endisset
+                    @isset($total_resolved_complaint)
+                             <div class="col-lg-4 col-6">
+                        <div class="small-box bg-secondary">
+                            <div class="inner">
+                                <h3>{{$total_resolved_complaint->count() ?? '-'}}<sup style="font-size: 20px"></sup></h3>
+
+                                <p>All Resolved Complaint</p>
                             </div>
                             
                             <div class="icon">
@@ -65,7 +82,7 @@
                             <div class="inner">
                                 <h3>{{$complaints->count() ?? '-'}}<sup style="font-size: 20px"></sup></h3>
 
-                                <p>Total complaints received</p>
+                                <p>complaints received to you</p>
                             </div>
                             
                             <div class="icon">
@@ -80,7 +97,7 @@
                             <div class="inner">
                                 <h3>{{$complaints->where('status','2')->count()}}</h3>
 
-                                <p>Resolved</p>
+                                <p>Resolved by you</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-check"></i>
@@ -92,7 +109,7 @@
                         <div class="small-box bg-danger">
                             <div class="inner">
                                 <h3>{{$complaints->where('status','3')->count()}}</h3>
-                                <p>Transfered</p>
+                                <p>Transfered Complaints</p>
                             </div>
                             <div class="icon">
                                <i class="fas fa-file-excel"></i>
@@ -149,9 +166,8 @@
                     <td>{!! Str::limit(strip_tags($complaint->solution),100) ?? '-' !!}</td>
                     <td>{{ \Carbon\Carbon::parse($complaint->date)->format('d/m/Y') ?? '-' }}</td>
                     <td>
-    {!! $complaint->status == '0' ? '<span class="badge badge-warning">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-info">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' : '<span class="badge badge-secondary">transfered</span>')) !!}
-</td>
-<td>
+                    {!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' :($complaint->status == '4' ? '<span class="badge badge-danger">rejected</span>' : '<span class="badge badge-secondary">transfered</span>') )) !!}</td>
+                    <td>
                     <a href="{{ route('complaints.show', $complaint) }}">view</a>
                   </td>
                   
