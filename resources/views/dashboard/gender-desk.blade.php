@@ -116,7 +116,7 @@
                     <td>
                     {!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' :($complaint->status == '4' ? '<span class="badge badge-danger">rejected</span>' : '<span class="badge badge-secondary">transfered</span>') )) !!}</td>
                     <td>
-                    <a href="{{ route('complaints.show', $complaint) }}">view</a>
+                    <a href="{{ route('gender-complaints.list') }}">view</a>
                   </td>
                   
                 </tr>

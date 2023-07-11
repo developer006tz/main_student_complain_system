@@ -457,12 +457,49 @@ class ComplaintController extends NotificationController
         }else{
             $complaint->update(['status' => $validated['resolve_status']]);
             Resolve::create(array_merge($validated, ['date' => now()]));
+
+            if($validated['resolve_status']=='2'){
+                //resolved  successfull
+                $student_message = 'Dear '.$complaint->student->user->name.', your complaint has been resolved successfully.';
+                $student_message_email = 'Your complaint has been resolved successfully.';
+                $lecture_message = 'Dear '.$complaint->lecture->user->name.', you have resolved a complaint claims from '.$complaint->student->user->name.' successfully.';
+                $lecture_message_email = 'You have resolved a complaint claims from '.$complaint->student->user->name.' successfully.';
+                $subject = 'COMPLAINT RESOLVED';
+
+                
+            }
+            if($validated['resolve_status']=='4'){
+                //rejected
+                $student_message = 'Dear '.$complaint->student->user->name.', your complaint has been rejected.';
+                $student_message_email = 'Your complaint has been rejected.';
+                $lecture_message = 'Dear '.$complaint->lecture->user->name.', you have rejected a complaint claims from '.$complaint->student->user->name.'.';
+                $lecture_message_email = 'You have rejected a complaint claims from '.$complaint->student->user->name.'.';
+                $subject = 'COMPLAINT REJECTED';
+            }
+            $save_student_sms = $this->save_message($student_message, $complaint->student->user->id, null, $complaint->student->user->phone, 1, 0);
+            $save_lecture_sms = $this->save_message($lecture_message, $complaint->lecture->user->id, null, $complaint->lecture->user->phone, 1, 0);
+
+            try {
+                sendEmail($complaint->student->user->email, $complaint->student->user->name, $subject, $student_message_email);
+                beem_sms(validatePhoneNumber($complaint->student->user->phone), $save_student_sms->body);
+
+                sendEmail($complaint->lecture->user->email, $complaint->lecture->user->name, $subject, $lecture_message_email);
+                beem_sms(validatePhoneNumber($complaint->lecture->user->phone), $save_lecture_sms->body);
+
+                $save_lecture_sms->send_status = 1;
+                $save_lecture_sms->save();
+
+                $save_student_sms->send_status = 1;
+                $save_student_sms->save();
+
+            } catch (\Throwable $th) {
+                error_log($th->getMessage());
+            }
+
             return to_route('complaints.show', $complaint)
                 ->withSuccess(__('Complaint resolved successfully'));
         }
         
-
-
     }
 
     /**
