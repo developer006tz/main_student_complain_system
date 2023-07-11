@@ -19,15 +19,17 @@
                 @include('app.users.form-inputs')
 
                 <div class="mt-4">
+                    @if($user->hasAnyRole(['super-admin', 'admin', 'editor']))
                     <a href="{{ route('users.index') }}" class="btn btn-outline-primary">
                         <i class="icon ion-md-return-left text-primary"></i>
                         @lang('crud.common.back')
                     </a>
-
+                    
                     <a href="{{ route('users.create') }}" class="btn btn-outline-primary">
                         <i class="icon ion-md-add text-primary"></i>
                         @lang('crud.common.create')
                     </a>
+                    @endif
 
                     <button type="submit" class="btn btn-primary float-right">
                         <i class="icon ion-md-save"></i>

@@ -134,6 +134,19 @@ class PermissionsSeeder extends Seeder
             'update students',
             'update roles',
         ];
+        $lecturer = [
+            'list complaints',
+            'view complaints',
+            'list messages',
+            'view messages',
+            'create messages',
+            'delete messages',
+            'view lectures',
+            'create lectures',
+            'update lectures',
+            'update roles',
+            'update permissions',
+        ];
 
         $userPermissions = [
             'create lectures',
@@ -152,32 +165,18 @@ class PermissionsSeeder extends Seeder
             'update users',
         ];
 
-        $lecturerRole = [
-            'list complaints',
-            'view complaints',
-            'list messages',
-            'view messages',
-            'create messages',
-            'update messages',
-            'delete messages',
-            'view lectures',
-            'create lectures',
-            'update lectures',
-            'update roles',
-            'update permissions',
-        ];
-
-
         // Create user role and assign existing permissions
         $currentPermissions = Permission::all();
         $userRole = Role::create(['name' => 'user']);
         $userRole->givePermissionTo($userPermissions);
+
         //create studentRole, assign existing permissions
         $studentRole = Role::create(['name' => 'student']);
         $studentRole->givePermissionTo($studentPermissions);
+
         //create lecturerRole, assign existing permissions
         $lecturerRole = Role::create(['name' => 'lecturer']);
-        $lecturerRole->givePermissionTo($lecturerRole);
+        $lecturerRole->givePermissionTo($lecturer);
         //create genderdeskRole, assign existing permissions
         $genderdeskRole = Role::create(['name' => 'gender-desk']);
         $genderdeskRole->givePermissionTo($currentPermissions);

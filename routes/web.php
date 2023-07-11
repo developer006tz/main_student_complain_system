@@ -19,6 +19,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ComplainTypeController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\DepartmentHeadController;
+use App\Mail\MailableScs;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,13 @@ use App\Http\Controllers\DepartmentHeadController;
 
 Route::get('/', function () {
     return view('auth.login');
+});
+
+Route::get('/testroute', function () {
+    $name = "Funny Coder";
+
+    // The email sending is done using the to method on the Mail facade
+    Mail::to('developer.ludovic@gmail.com’')->send(new MailableScs($name));
 });
 
 Auth::routes();
@@ -60,4 +69,9 @@ Route::prefix('/')
         Route::resource('countries', CountryController::class);
         Route::resource('users', UserController::class);
         Route::resource('messages', MessageController::class);
+        //inline route to update complaints
+        Route::patch('complaints/{complaint}/update', [ComplaintController::class, 'update_status'])->name('complaint_status.update');
+        Route::put('complaints/{complaint}/resolve', [ComplaintController::class, 'resolve_reject_or_transfer'])->name('complaint_status.resolve');
+        //route sent_messages.show to show sent messages of auth user
+        Route::get('sent_messages', [MessageController::class, 'sent_messages'])->name('sent_messages.show');
     });

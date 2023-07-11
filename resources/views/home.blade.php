@@ -34,6 +34,10 @@
                     @include('dashboard.student')
                 @endif
 
+                @if($role=='lecturer')
+                    @include('dashboard.lecturer')
+                @endif
+
             </div>
         </section>
         <!-- /.content -->

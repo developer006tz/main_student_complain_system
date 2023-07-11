@@ -52,14 +52,20 @@
         @endif
 
 
-        <script type="module">
+        {{-- <script type="module">
             import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';
-        </script>
+        </script> --}}
 
-        @livewireStyles
+        {{-- @livewireStyles --}}
     </head>
 
     <body class="sidebar-mini layout-fixed layout-navbar-fixed ">
+        @auth
+        @php
+        $user = Auth::user();
+        $role = $user->roles->pluck('name')->first();
+        @endphp
+        @endauth
         <div id="app" class="wrapper">
             <div class="main-header">
                 @include('layouts.nav')
@@ -105,9 +111,9 @@
 
         <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
 
-        @livewireScripts
+        {{-- @livewireScripts --}}
 
-        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script> --}}
 
         @stack('scripts')
         <script>
@@ -118,8 +124,14 @@
 
         @if (session()->has('success'))
         <script>
-            var notyf = new Notyf({dismissible: true})
+            var notyf = new Notyf({position: {x: 'right',y: 'top'}, duration: 3000, dismissible: true})
             notyf.success('{{ session('success') }}')
+        </script>
+        @endif
+        @if (session()->has('error'))
+        <script>
+            var notyf = new Notyf({position: {x: 'right',y: 'top'},duration: 5000, dismissible: false})
+            notyf.error('{{ session('error') }}')
         </script>
         @endif
         @auth
@@ -146,21 +158,21 @@
                 Alpine.data('imageViewer', (src = '') => {
                     return {
                         imageUrl: src,
-
+        
                         refreshUrl() {
                             this.imageUrl = this.$el.getAttribute("image-url")
                         },
-
+        
                         fileChosen(event) {
                             this.fileToDataUrl(event, src => this.imageUrl = src)
                         },
-
+        
                         fileToDataUrl(event, callback) {
                             if (! event.target.files.length) return
-
+        
                             let file = event.target.files[0],
                                 reader = new FileReader()
-
+        
                             reader.readAsDataURL(file)
                             reader.onload = e => callback(e.target.result)
                         },

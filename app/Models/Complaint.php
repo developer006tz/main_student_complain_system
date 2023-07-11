@@ -71,4 +71,9 @@ class Complaint extends Model
     {
         return $this->belongsTo(AcademicYear::class);
     }
+
+    public function resolves()
+    {
+        return $this->hasMany(Resolve::class)->latest()->take(1);
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\DepartmentHead;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\DepartmentHeadStoreRequest;
 use App\Http\Requests\DepartmentHeadUpdateRequest;
@@ -40,7 +41,14 @@ class DepartmentHeadController extends Controller
     {
         $this->authorize('create', DepartmentHead::class);
 
-        $users = User::pluck('name', 'id');
+        //users with role of lecturer and does not habe a department-head role
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'lecturer');
+        })->whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'department-head');
+        })->pluck('name', 'id');
+        
+
         $departments = Department::pluck('name', 'id');
 
         return view(
@@ -58,7 +66,19 @@ class DepartmentHeadController extends Controller
 
         $validated = $request->validated();
 
-        $departmentHead = DepartmentHead::create($validated);
+        $department = Department::find($validated['department_id']);
+        $user = User::find($validated['user_id']);
+        //check in department if there is a $user->lecture with role of department-head
+        $lecturer = $department->departmentHead()->where('user_id','!=',$user->id)->join('users','users.id','=','department_heads.user_id')->first();
+        if ($lecturer) {
+            return to_route('department-heads.create')
+                ->withError(__('Department Head already Exists in "' . strtolower($department->name) . '" !'));
+        } else {
+            $user->assignRole(Role::findByName('department-head'));
+            $departmentHead = DepartmentHead::create($validated);
+        }
+
+        
 
         return redirect()
             ->route('department-heads.index', $departmentHead)
@@ -117,6 +137,9 @@ class DepartmentHeadController extends Controller
         DepartmentHead $departmentHead
     ): RedirectResponse {
         $this->authorize('delete', $departmentHead);
+
+        $user = User::find($departmentHead->user_id);
+        $user->removeRole(Role::findByName('department-head'));
 
         $departmentHead->delete();
 

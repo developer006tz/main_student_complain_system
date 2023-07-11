@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
         $user = \App\Models\User::factory()
             ->count(1)
             ->create([
-                'name'=>'Ludovick Konyo',
+                'name' => 'Ludovick Konyo',
                 'email' => 'developer@ludovickonyo.com',
-                'phone'=>'+255746828843',
+                'phone' => '+255746828843',
                 // 'designation'=>'lecture',
                 'password' => \Hash::make('admin'),
             ]);

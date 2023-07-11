@@ -10,7 +10,7 @@
                                     <ul id="progressbar">
                                         <li class="active" id="account"><strong>Register</strong></li>
                                         <li class="active" id="personal"><strong>Choose Role</strong></li>
-                                        <li id="payment"><strong>Fill {{Auth::user()->getRoleNames()[0];}} Info's</strong></li>
+                                        <li id="payment"><strong>Fill {{Auth::user()->getRoleNames()[0]}} Info's</strong></li>
                                         <li id="confirm"><strong>Finish</strong></li>
                                     </ul>
                                     <br>
@@ -57,13 +57,13 @@
                                 <i class="fa-sharp fa fa-folder-open"></i>
                             </div>
                             
-                            <a href="#" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('complaints.index') }}" class="small-box-footer">view<i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{$complaints->where('status','1')->count()}}</h3>
+                                <h3>{{$complaints->where('status','2')->count()}}</h3>
 
                                 <p>Resolved</p>
                             </div>
@@ -76,8 +76,8 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>{{$complaints->where('status','2')->count()}}</h3>
-                                <p>Failed</p>
+                                <h3>{{$complaints->where('status','4')->count()}}</h3>
+                                <p>Rejected</p>
                             </div>
                             <div class="icon">
                                <i class="fas fa-file-excel"></i>
@@ -114,9 +114,8 @@
                     <td>{!! Str::limit(strip_tags($complaint->description),100) ?? '-' !!}</td>
                     <td>{!! Str::limit(strip_tags($complaint->solution),100) ?? '-' !!}</td>
                     <td>{{ \Carbon\Carbon::parse($complaint->date)->format('d/m/Y') ?? '-' }}</td>
-                    <td>
-    {!! $complaint->status == '0' ? '<button class="btn btn-warning">pending</button>' : ($complaint->status == '1' ? '<button class="btn btn-success">success</button>' : ($complaint->status ?? '-')) !!}
-</td>
+                    <td style="width: 134px;">
+                    {!! $complaint->status == '0' ? '<span class="badge badge-info">new</span>' : ($complaint->status == '1' ? '<span class="badge badge-warning">pending</span>' : ($complaint->status == '2' ? '<span class="badge badge-success">resolved</span>' :($complaint->status == '4' ? '<span class="badge badge-danger">rejected</span>' : '<span class="badge badge-secondary">transfered</span>') )) !!}</td>
                   </tr>
                    @empty
                         <tr>

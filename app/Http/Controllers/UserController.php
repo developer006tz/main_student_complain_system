@@ -115,16 +115,55 @@ class UserController extends Controller
         }
 
         $user->update($validated);
+        
+        // return roles name by $request roles id
+
+        $roles = Role::findOrFail($request->roles);
+
+        $role_names = $roles->pluck('name')->toArray();
+        //check if $request roles contain department-head
+        if (in_array('department-head', $role_names)) {
+            //ckeck if the user has also role lecturer and check if there are lecture in the same department with the department-head role , if found return error message if not assign the department-head role
+            if (in_array('lecturer', $role_names)) {
+                $lecturer = User::where('users.id', '!=', $user->id)
+                    ->whereHas('roles', function ($q) {
+                        $q->where('name', 'department-head');
+                    })
+                    ->join('lectures', 'users.id', '=', 'lectures.user_id')
+                    ->where('lectures.department_id', $user->lecture->department_id)
+                    ->first();
+
+                if ($lecturer) {
+                    return redirect()
+                        ->route('users.edit', $user)
+                        ->withError(__('Department Head already Exists in "'. strtolower($user->lecture->department->name).'" Department !'));
+                } else {
+                    $user->syncRoles($request->roles);
+                    //create deprtment head
+                    $department_head = [
+                        'user_id' => $user->id,
+                        'department_id' => $user->lecture->department_id,
+                    ];
+                    $user->departmentHead()->create($department_head);
+                }
+            } else {
+                $user->syncRoles($request->roles);
+            }
+           
+        } else {
+            $user->syncRoles($request->roles);
+        }
 
         $user->syncRoles($request->roles);
+        
         if (auth()->user()->hasRole('super-admin')){
           return redirect()
-            ->route('users.edit', $user)
-            ->withSuccess(__('crud.common.saved'));  
+            ->route('users.show', $user)
+            ->withSuccess(__($user->name.' Updated Successfull'));  
         } else{
             return redirect()
             ->route('home')
-            ->withSuccess(__('crud.common.saved'));
+            ->withSuccess(__($user->name . ' Updated Successfull'));
             
         }
         

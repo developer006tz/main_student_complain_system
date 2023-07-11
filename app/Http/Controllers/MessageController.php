@@ -33,11 +33,39 @@ class MessageController extends Controller
         }else{
             $messages = Message::where('user_id', auth()->user()->id)->search($search)
                 ->latest()
-                ->paginate(500)
+                ->paginate(10)
+                ->withQueryString();
+
+                $sentMessages = Message::where('sender_id', auth()->user()->id)->search($search)
+                ->latest()
+                ->paginate(10)
                 ->withQueryString();
         }    
 
-        return view('app.messages.index', compact('messages', 'search'));
+        return view('app.messages.index', compact('messages', 'search', 'sentMessages'));
+    }
+
+    public function sent_messages(Request $request): View
+    {
+        $this->authorize('view-any', Message::class);
+
+        $search = $request->get('search', '');
+        $sentMessages = Message::where('sender_id', auth()->user()->id)->search($search)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $messages = Message::where('user_id', auth()->user()->id)->search($search)
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $showSentMessages = Message::where('sender_id', auth()->user()->id)->search($search)
+                ->latest()
+                ->paginate(10)
+                ->withQueryString();
+
+        return view('app.messages.index', compact('showSentMessages', 'search', 'sentMessages', 'messages'));
     }
 
     /**

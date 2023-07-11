@@ -22,12 +22,14 @@
         <x-inputs.text
             name="phone"
             label="Phone"
-            :value="old('phone', ($editing ? $message->phone : ''))"
+            {{-- :value="old('phone', ($editing ? $message->phone : ''))" --}}
+            value="{{ old('phone', ($editing ? $message->user->phone : '')) }}"
             maxlength="255"
             placeholder="Phone"
         ></x-inputs.text>
     </x-inputs.group>
 
+    @if(Auth::user()->hasRole('developer'))
     <x-inputs.group class="col-sm-12">
         <x-inputs.select name="send_status" label="Send Status">
             @php $selected = old('send_status', ($editing ? $message->send_status : '0')) @endphp
@@ -38,7 +40,11 @@
             <option value="4" {{ $selected == '4' ? 'selected' : '' }} >4</option>
         </x-inputs.select>
     </x-inputs.group>
+    @else 
+    <x-inputs.hidden name="send_status" :value="old('send_status', ($editing ? $message->send_status : '0'))"></x-inputs.hidden>
+    @endif
 
+     @if(Auth::user()->hasRole('developer'))
     <x-inputs.group class="col-sm-12">
         <x-inputs.select name="type" label="Type">
             @php $selected = old('type', ($editing ? $message->type : '1')) @endphp
@@ -46,4 +52,7 @@
             <option value="1" {{ $selected == '1' ? 'selected' : '' }} >1</option>
         </x-inputs.select>
     </x-inputs.group>
+    @else
+    <x-inputs.hidden name="type" :value="old('type', ($editing ? $message->type : '1'))"></x-inputs.hidden>
+    @endif
 </div>
