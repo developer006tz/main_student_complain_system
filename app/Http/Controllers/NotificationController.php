@@ -18,8 +18,6 @@ class NotificationController extends Controller
         $message->user_id = $user_id;
         $message->sender_id = $sender_id;
         $message->phone = $phone;
-        $message->type = $type;
-        $message->send_status = "0";
         $message->save();
 
         return $message;
