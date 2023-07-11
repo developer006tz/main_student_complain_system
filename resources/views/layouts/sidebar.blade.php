@@ -77,7 +77,19 @@
                                 <p>All Complaints</p>
                             </a>
                         </li>
-                    @endcan
+                    @endcan  
+                    {{-- gender-complaints.list --}}
+
+                    @if(Auth::user()->hasAnyRole(['gender-desk','student']))
+
+                     <li class="nav-item">
+                            <a href="{{ route('gender-complaints.list') }}" class="nav-link {{ $complaint_routes ? 'active' : '' }}">
+                                <i class="nav-icon icon ion-ios-bookmarks"></i>
+                                <p><span class="badge badge-danger">gender complaints</span></p>
+                            </a>
+                        </li>
+                    @endif
+
                         {{-- @can('view-any', App\Models\Complaint::class)
                             <li class="nav-item">
                                 <a href="{{ route('complaints.index') }}" class="nav-link {{ $complaint_routes ? 'active' : '' }}">

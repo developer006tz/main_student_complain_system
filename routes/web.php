@@ -56,6 +56,13 @@ Route::prefix('/')
 
         Route::resource('complain-types', ComplainTypeController::class);
         Route::resource('complaints', ComplaintController::class);
+        Route::get('create-gender-complaint', [ComplaintController::class, 'create_gender_complaint'])->name('gender-complaints.create');
+        Route::post('store-gender-complaint', [ComplaintController::class, 'store_gender_complaint'])->name('gender-complaints.store');
+        Route::get('gender-complaint', [ComplaintController::class, 'lis_gender_complaint'])->name('gender-complaints.list');
+
+        Route::any('gender-complaint-resolve/{complaint}', [ComplaintController::class, 'gender_complaint_resolve'])->name('complaints.resolve');
+        Route::any('gender-complaint-reject/{complaint}', [ComplaintController::class, 'gender_complaint_reject'])->name('complaints.reject');
+
         Route::resource('students', StudentController::class);
         Route::resource('lectures', LectureController::class);
         Route::resource('departments', DepartmentController::class);

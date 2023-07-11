@@ -37,6 +37,9 @@
                 @if($role=='lecturer')
                     @include('dashboard.lecturer')
                 @endif
+                @if($role=='gender-desk')
+                    @include('dashboard.gender-desk')
+                @endif
 
             </div>
         </section>

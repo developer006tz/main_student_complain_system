@@ -11,6 +11,7 @@ use App\Models\Semester;
 use App\Models\Complaint;
 use App\Models\Resolve;
 use DB;
+use App\Models\GenderComplaints;
 use Illuminate\View\View;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -68,6 +69,102 @@ class ComplaintController extends NotificationController
 
         
     }
+
+    public function lis_gender_complaint(Request $request):view
+    {
+        if (auth()->user()->hasRole('student')) {
+            $complaints = GenderComplaints::where('student_id', auth()->user()->student->id)->latest()->paginate(500);
+        }elseif(auth()->user()->hasRole('gender-desk')){
+            $complaints = GenderComplaints::latest()
+                ->paginate(500)
+                ->withQueryString();
+        }else{
+            $complaints = [];
+        }
+
+        return view('app.complaints.gindex', compact('complaints'));
+
+    }
+
+    public function gender_complaint_resolve($complaint):RedirectResponse 
+    {
+        $complaint = GenderComplaints::find($complaint);
+        $complaint->status = '2';
+        $complaint->save();
+
+        $student_sms = 'Your Gender complaint concerning " '.$complaint->title.' "  has been resolved';
+        $lecture_sms = 'Thanks for resolving Gender issue, regarding " ' . $complaint->title . ' " ';
+
+        $save_student_sms = $this->save_message($student_sms, $complaint->user_id,null, validatePhoneNumber($complaint->user->phone) , 1, 0);
+
+        //find user that have gender-desk role 
+        $gender_desk = User::role('gender-desk')->first();
+        if ($gender_desk) {
+            $save_lecture_sms = $this->save_message($lecture_sms, $gender_desk->id, null, validatePhoneNumber($gender_desk->phone), 1, 0);
+        }
+             try {
+                
+                sendEmail($gender_desk->email, $gender_desk->name, ' COMPLAINT RESOLVED', $lecture_sms);
+                beem_sms(validatePhoneNumber($gender_desk->phone), $lecture_sms);
+
+                sendEmail($complaint->user->email, $complaint->user->name, 'COMPLAINT RESOLVED SUCCESSFULL', $student_sms);
+                beem_sms(validatePhoneNumber($complaint->user->phone), $student_sms);
+                // Update $save_lecture_sms send_status to 1
+                $save_lecture_sms->send_status = 1;
+                $save_lecture_sms->save();
+
+                // Update $save_student_sms status to 1
+
+                $save_student_sms->send_status = 1;
+                $save_student_sms->save();
+
+             } catch (\Throwable $th) {
+                error_log($th->getMessage());
+             }
+
+        
+        return redirect()->route('home')->with('success', 'Complaint Resolved Successfully');
+    }
+
+    public function gender_complaint_reject($complaint):RedirectResponse 
+    {
+        $complaint = GenderComplaints::find($complaint);
+        $complaint->status = '4';
+        $complaint->save();
+
+        $student_sms = 'Your Gender complaint concerning " ' . $complaint->title . ' "  has been Rejected !';
+        $lecture_sms = 'You Reject Gender issue, regarding " ' . $complaint->title . ' " ';
+
+        $save_student_sms = $this->save_message($student_sms, $complaint->user_id, null, validatePhoneNumber($complaint->user->phone), 1, 0);
+
+        //find user that have gender-desk role 
+        $gender_desk = User::role('gender-desk')->first();
+        if ($gender_desk) {
+            $save_lecture_sms = $this->save_message($lecture_sms, $gender_desk->id, null, validatePhoneNumber($gender_desk->phone), 1, 0);
+        }
+        try {
+
+            sendEmail($gender_desk->email, $gender_desk->name, ' COMPLAINT RESOLVED', $lecture_sms);
+            beem_sms(validatePhoneNumber($gender_desk->phone), $lecture_sms);
+
+            sendEmail($complaint->user->email, $complaint->user->name, 'COMPLAINT RESOLVED SUCCESSFULL', $student_sms);
+            beem_sms(validatePhoneNumber($complaint->user->phone), $student_sms);
+            // Update $save_lecture_sms send_status to 1
+            $save_lecture_sms->send_status = 1;
+            $save_lecture_sms->save();
+
+            // Update $save_student_sms status to 1
+
+            $save_student_sms->send_status = 1;
+            $save_student_sms->save();
+
+        } catch (\Throwable $th) {
+            error_log($th->getMessage());
+        }
+        return redirect()->route('home')->with('success', 'Complaint Rejected Successfully');
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -164,6 +261,35 @@ class ComplaintController extends NotificationController
         return redirect()
             ->route('complaints.index', $complaint)
             ->withSuccess(__('crud.common.created'));
+    }
+
+    public function create_gender_complaint(Request $request):view 
+    {
+        return view('app.complaints.gender');
+    }
+
+    public function store_gender_complaint(Request $request):RedirectResponse 
+    {
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        $user = auth()->user();
+        $student = Student::where('user_id', $user->id)->first();
+
+        $validated['user_id'] = $user->id;
+        $validated['student_id'] = $student->id;
+
+        $create = GenderComplaints::create($validated);
+
+        if($create){
+            return to_route('home')->withSuccess('Complaint created successfull');
+        }else{
+            return redirect()->back()->withErrors('Complaint submition failed');
+        }
+
+
     }
 
     /**
