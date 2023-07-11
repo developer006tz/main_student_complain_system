@@ -31,7 +31,7 @@
                   @if(Auth::user()->hasAnyRole(['super-admin', 'lecturer', 'gender-desk']))
                         <td>
                             @if($complaint->status == '0')
-                            <form method="POST" action="{{ route('complaint_status.update', $complaint) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('complaint_status.update', $complaint) }}"  class="form-horizontal">
                                 {{ csrf_field() }}
                                 {{ method_field('PATCH') }}
                                 <input type="hidden" name="status" value="1">
