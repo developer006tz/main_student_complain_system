@@ -29,6 +29,7 @@
                         </td>
                          @can('update', $complaint)
                   @if(Auth::user()->hasAnyRole(['super-admin', 'lecturer', 'gender-desk']))
+                  {{dd('yes')}}
                         <td>
                             @if($complaint->status == '0')
                             <form method="POST" action="{{ route('complaint_status.update', $complaint) }}"  class="form-horizontal">
@@ -41,6 +42,8 @@
                             <button class="btn btn-success" disabled>Already Accepted</button>
                             @endif
                         </td>
+                    @else
+                    {{dd('no')}}
                     @endif
                     @endcan
                     </tr>
