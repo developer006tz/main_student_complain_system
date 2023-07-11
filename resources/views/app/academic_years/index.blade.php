@@ -45,8 +45,8 @@
                         @forelse($academicYears as $academicYear)
                         <tr>
                             <td>{{ $academicYear->name ?? '-' }}</td>
-                            <td>{{ $academicYear->start_date ?? '-' }}</td>
-                            <td>{{ $academicYear->end_date ?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($academicYear->start_date)->format('d/m/y')?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($academicYear->end_date)->format('d/m/y') ?? '-' }}</td>
                             <td class="text-center" style="width: 134px;">
                                 <div
                                     role="group"
