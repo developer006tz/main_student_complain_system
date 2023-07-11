@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+/!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -94,7 +94,7 @@
                                 <input id="password-confirm" type="password" class="form-control pass-confirm" name="password_confirmation" required autocomplete="new-password">
                                 <span class="profile-views feather-eye reg-toggle-password"></span>
                             </div>
-                            <div class=" dont-have">Already Registered? <a href="login.html">Login</a></div>
+                            <div class=" dont-have">Already Registered? <a href="{{route('login')}}">Login</a></div>
                             <div class="form-group mb-0">
                                 <button class="btn btn-primary btn-block" type="submit">Register</button>
                             </div>
